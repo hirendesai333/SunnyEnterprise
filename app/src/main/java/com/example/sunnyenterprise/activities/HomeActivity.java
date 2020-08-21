@@ -38,6 +38,8 @@ public class HomeActivity extends AppCompatActivity {
 
     ImageView mButton;
 
+    // this change is from chirag
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
