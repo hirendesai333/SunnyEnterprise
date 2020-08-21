@@ -51,8 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+//removed this unneccesary code
 
 
         navigationView = findViewById(R.id.nav_view);

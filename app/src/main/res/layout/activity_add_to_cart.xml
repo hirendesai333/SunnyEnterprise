@@ -92,6 +92,7 @@
             android:background="@drawable/rounded_btn"
             android:drawableLeft="@drawable/frontcart"
             android:padding="10dp"
+            android:layout_marginBottom="4dp"
             android:gravity="center"
             android:text="Checkout"
             android:textColor="@color/white"
