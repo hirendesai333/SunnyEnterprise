@@ -31,7 +31,8 @@
             android:name=".activities.HomeActivity"
             android:theme="@style/NoTitleTheme" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.SplashActivity"
+            android:theme="@style/NoTitleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
