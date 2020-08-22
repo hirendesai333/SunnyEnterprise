@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/splashActivity">
+
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.example.sunnyenterprise.activities.SplashActivity"
+        android:label="activity_splash"
+        tools:layout="@layout/activity_splash" >
+        <action
+            android:id="@+id/action_splashActivity_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </activity>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.sunnyenterprise.activities.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" >
+        <action
+            android:id="@+id/action_loginActivity_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </activity>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.sunnyenterprise.activities.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" >
+        <action
+            android:id="@+id/action_homeActivity_to_catalogActivity"
+            app:destination="@id/catalogActivity" />
+        <action
+            android:id="@+id/action_homeActivity_to_addToCartActivity"
+            app:destination="@id/addToCartActivity" />
+    </activity>
+    <activity
+        android:id="@+id/catalogActivity"
+        android:name="com.example.sunnyenterprise.activities.CatalogActivity"
+        android:label="activity_catalog"
+        tools:layout="@layout/activity_catalog" >
+        <action
+            android:id="@+id/action_catalogActivity_to_productActivity"
+            app:destination="@id/productActivity" />
+    </activity>
+    <activity
+        android:id="@+id/productActivity"
+        android:name="com.example.sunnyenterprise.activities.ProductActivity"
+        android:label="activity_product"
+        tools:layout="@layout/activity_product" >
+        <action
+            android:id="@+id/action_productActivity_to_productDetailsActivity"
+            app:destination="@id/productDetailsActivity" />
+    </activity>
+    <activity
+        android:id="@+id/productDetailsActivity"
+        android:name="com.example.sunnyenterprise.activities.ProductDetailsActivity"
+        android:label="activity_product_details"
+        tools:layout="@layout/activity_product_details" >
+        <action
+            android:id="@+id/action_productDetailsActivity_to_addToCartActivity"
+            app:destination="@id/addToCartActivity" />
+    </activity>
+    <activity
+        android:id="@+id/addToCartActivity"
+        android:name="com.example.sunnyenterprise.activities.AddToCartActivity"
+        android:label="activity_add_to_cart"
+        tools:layout="@layout/activity_add_to_cart" />
+</navigation>

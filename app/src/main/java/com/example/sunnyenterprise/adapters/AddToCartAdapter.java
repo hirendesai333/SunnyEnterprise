@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
@@ -16,13 +15,14 @@ import com.example.sunnyenterprise.R;
 import java.util.List;
 
 public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.ViewHolder> {
-    List<String> titles;
+    List<String> titles,colors;
     List<Integer> images;
     LayoutInflater inflater;
 
-    public AddToCartAdapter(List<String> titles, List<Integer> images, Context mContext) {
+    public AddToCartAdapter(List<String> titles ,List<String> colors, List<Integer> images, Context mContext) {
         this.titles = titles;
         this.images = images;
+        this.colors = colors;
         this.inflater = LayoutInflater.from(mContext);
     }
 
@@ -36,7 +36,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(titles.get(position));
+        holder.ccolor.setText(colors.get(position));
         holder.cgridIcon.setImageResource(images.get(position));
+
     }
 
     @Override
@@ -45,7 +47,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle;
+        TextView ctitle,ccolor;
         ImageView cgridIcon;
 //        CardView cproductgridView;
 
@@ -53,6 +55,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
             super(itemView);
             ctitle = itemView.findViewById(R.id.textViewAddToCart);
             cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
+            ccolor = itemView.findViewById(R.id.colorText);
 
         }
     }

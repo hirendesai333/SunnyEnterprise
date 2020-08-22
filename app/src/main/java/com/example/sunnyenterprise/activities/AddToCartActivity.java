@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AddToCartActivity extends AppCompatActivity {
     RecyclerView productList;
-    List<String> titles;
+    List<String> titles, colors;
     List<Integer> images;
     AddToCartAdapter addToCartAdapter;
 
@@ -29,6 +29,7 @@ public class AddToCartActivity extends AppCompatActivity {
 
         productList = findViewById(R.id.addTocartRecyclerView);
         titles = new ArrayList<>();
+        colors = new ArrayList<>();
         images = new ArrayList<>();
 
         titles.add("First product");
@@ -38,6 +39,13 @@ public class AddToCartActivity extends AppCompatActivity {
         titles.add("Fifth product");
         titles.add("Sixth product");
 
+        colors.add("RED");
+        colors.add("BLUE");
+        colors.add("GREEN");
+        colors.add("YELLO");
+        colors.add("BLACK");
+        colors.add("DARKRED");
+
         images.add(R.drawable.catalog);
         images.add(R.drawable.catalog);
         images.add(R.drawable.catalog);
@@ -46,7 +54,7 @@ public class AddToCartActivity extends AppCompatActivity {
         images.add(R.drawable.catalog);
         images.add(R.drawable.catalog);
 
-        addToCartAdapter = new AddToCartAdapter(titles, images, this);
+        addToCartAdapter = new AddToCartAdapter(titles, colors, images, this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         productList.setLayoutManager(gridLayoutManager);

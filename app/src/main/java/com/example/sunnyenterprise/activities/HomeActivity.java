@@ -8,12 +8,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.sunnyenterprise.adapters.CompanyAdapter;
 import com.example.sunnyenterprise.R;
@@ -35,15 +37,28 @@ public class HomeActivity extends AppCompatActivity {
     CompanyAdapter companyAdapter;
 
     SliderLayout sliderLayout;
-
     ImageView mButton;
+    
+    ImageView notifyImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        drawerLayout = findViewById(R.id.drawerLayout);
+        notifyImage = findViewById(R.id.imageViewNotificatino);
+        notifyImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(HomeActivity.this, "clicked! ", Toast.LENGTH_SHORT).show();
+                Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
+                startActivity(notificationIntent);
+            }
+        });
+
+
+
+        drawerLayout = findViewById(R.id.imageCartMain);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -142,15 +157,9 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_topbar, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (toggle.onOptionsItemSelected(item))
             return true;
 

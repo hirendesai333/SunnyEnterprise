@@ -2,66 +2,48 @@ package com.example.sunnyenterprise.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.CatalogAdapter;
+import com.example.sunnyenterprise.adapters.NotificationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogActivity extends AppCompatActivity {
-    RecyclerView dataList;
+public class NotificationActivity extends AppCompatActivity {
+    RecyclerView notifyList;
     List<String> titles;
-    List<Integer> images;
-    CatalogAdapter catalogAdapter;
-
-    TextView textView;
+    NotificationAdapter notificationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog);
+        setContentView(R.layout.activity_notification);
 
-        Intent i = getIntent();
-        String title = i.getStringExtra("title");
 
-        textView = findViewById(R.id.catalogTitle);
-        textView.setText(title);
-
-        dataList = findViewById(R.id.catalogRecyclerView);
+        notifyList = findViewById(R.id.notificationRecyclerview);
         titles = new ArrayList<>();
-        images = new ArrayList<>();
 
-        titles.add("First catalog");
-        titles.add("Second catalog");
-        titles.add("Third catalog");
-        titles.add("Fourth catalog");
-        titles.add("Fifth catalog");
-        titles.add("Sixth catalog");
+        titles.add("First notification");
+        titles.add("Second notification");
+        titles.add("Third notification");
+        titles.add("Fourth notification");
+        titles.add("Fifth notification");
+        titles.add("Sixth notification");
 
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-
-        catalogAdapter = new CatalogAdapter(this, titles, images);
+        notificationAdapter = new NotificationAdapter(this, titles);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
-        dataList.setLayoutManager(gridLayoutManager);
-        dataList.setAdapter(catalogAdapter);
+        notifyList.setLayoutManager(gridLayoutManager);
+        notifyList.setAdapter(notificationAdapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -73,20 +55,18 @@ public class CatalogActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder target, int direction) {
                 int position = target.getAdapterPosition();
                 titles.remove(position);
-                images.remove(position);
-                catalogAdapter.notifyDataSetChanged();
+
+                notificationAdapter.notifyDataSetChanged();
             }
         });
-        itemTouchHelper.attachToRecyclerView(dataList);
+        itemTouchHelper.attachToRecyclerView(notifyList);
 
-        ImageView imageView = findViewById(R.id.backImageCatalog);
+        ImageView imageView = findViewById(R.id.backimagenotify);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-
             }
         });
     }
-
 }
