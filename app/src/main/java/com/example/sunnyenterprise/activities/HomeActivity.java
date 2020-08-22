@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 //                Toast.makeText(HomeActivity.this, "clicked! ", Toast.LENGTH_SHORT).show();
                 Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivity(notificationIntent);
-                Toast.makeText(HomeActivity.this, "Swipe notification to remove!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "To remove the notification Swipe it!", Toast.LENGTH_SHORT).show();
             }
         });
 
