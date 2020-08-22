@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
 
     SliderLayout sliderLayout;
     ImageView mButton;
-    
+
     ImageView notifyImage;
 
     @Override
@@ -53,10 +53,9 @@ public class HomeActivity extends AppCompatActivity {
 //                Toast.makeText(HomeActivity.this, "clicked! ", Toast.LENGTH_SHORT).show();
                 Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivity(notificationIntent);
+                Toast.makeText(HomeActivity.this, "Swipe notification to remove!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         drawerLayout = findViewById(R.id.imageCartMain);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);

@@ -9,7 +9,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/imageViewBackfromCart"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         android:layout_marginEnd="32dp"
         android:text="My Cart"
         android:textColor="#dedede"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageViewBackfromCart"
@@ -60,7 +60,7 @@
         android:layout_marginTop="8dp"
         android:text="Total items"
         android:textColor="#dedede"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -69,6 +69,7 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,23 +78,21 @@
         <TextView
             android:id="@+id/button1"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:text="Total Price"
+            android:text="Total: \nPrice"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/addTocartBtn"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/rounded_btn"
-            android:drawableLeft="@drawable/frontcart"
-            android:padding="10dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
             android:text="Checkout"
             android:textColor="@color/white"
             android:textSize="16sp" />
