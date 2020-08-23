@@ -9,7 +9,6 @@
     tools:context=".activities.HomeActivity">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +73,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         <com.smarteist.autoimageslider.SliderLayout
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
@@ -104,6 +102,20 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Version 1.0" />
+        </LinearLayout>
 
     </com.google.android.material.navigation.NavigationView>
 

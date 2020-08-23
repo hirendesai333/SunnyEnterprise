@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     SliderLayout sliderLayout;
     ImageView mButton;
 
-    ImageView notifyImage;
+    ImageView notifyImage, imageViewCt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,27 +57,39 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        imageViewCt = findViewById(R.id.imageViewCart);
+        imageViewCt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cartIntent = new Intent(HomeActivity.this, AddToCartActivity.class);
+                startActivity(cartIntent);
+            }
+        });
+
+
         drawerLayout = findViewById(R.id.imageCartMain);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                /*switch (id) {
-                    case R.id.profile:
-                        *//*Intent profileIntent = new Intent(getApplicationContext(), UserActivity.class);
-                        startActivity(profileIntent);
+                switch (id) {
+                    case R.id.home:
+//                        drawerLayout.openDrawer(GravityCompat.END);
                         break;
-                    case R.id.logOut:
-                        LogOut();
+                    case R.id.orders:
+                        Intent cartIntent = new Intent(HomeActivity.this, OrderActivity.class);
+                        startActivity(cartIntent);
                         break;
                     default:
                         return true;
-                }*/
+                }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }

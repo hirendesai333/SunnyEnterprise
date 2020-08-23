@@ -11,8 +11,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activities.NotificationActivity"
-            android:theme="@style/NoTitleTheme"/>
+        <activity android:name=".activities.OrderActivity"
+            android:theme="@style/NoTitleTheme"></activity>
+        <activity
+            android:name=".activities.NotificationActivity"
+            android:theme="@style/NoTitleTheme" />
         <activity
             android:name=".activities.AddToCartActivity"
             android:theme="@style/NoTitleTheme" />
@@ -31,8 +34,7 @@
             android:name=".activities.HomeActivity"
             android:theme="@style/NoTitleTheme" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.SplashActivity"
-            android:theme="@style/NoTitleTheme">
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
