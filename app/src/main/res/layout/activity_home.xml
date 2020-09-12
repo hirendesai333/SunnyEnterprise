@@ -72,13 +72,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!--
+                <com.smarteist.autoimageslider.SliderLayout
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="10dp" />-->
 
-        <com.smarteist.autoimageslider.SliderLayout
-            android:id="@+id/imageSlider"
+        <AdapterViewFlipper
+            android:id="@+id/adapterViewFlipper"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp">
+
+        </AdapterViewFlipper>
+
+        <LinearLayout
+            android:id="@+id/SliderDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewPager"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" />
 
         <TextView
             android:layout_width="match_parent"

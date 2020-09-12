@@ -15,31 +15,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.activities.CatalogActivity;
 import com.example.sunnyenterprise.activities.ProductActivity;
+import com.example.sunnyenterprise.model.Category;
+import com.example.sunnyenterprise.model.Company;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder> {
-    List<String> titles;
-    List<Integer> images;
-    LayoutInflater inflater;
+    /*List<String> titles;
+    List<Integer> images;*/
+    Context context;
+    List<Category> categoryList;
 
-    public CatalogAdapter(Context context, List<String> titles, List<Integer> images) {
-        this.titles = titles;
-        this.images = images;
-        this.inflater = LayoutInflater.from(context);
+    public CatalogAdapter(Context context, List<Category> categoryList) {
+        this.context = context;
+        this.categoryList = categoryList;
     }
 
     @NonNull
     @Override
     public CatalogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.catalog_grid_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_grid_layout, parent, false);
         return new CatalogViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final CatalogAdapter.CatalogViewHolder holder, int position) {
-        holder.title.setText(titles.get(position));
-        holder.gridIcon.setImageResource(images.get(position));
+        holder.title.setText(categoryList.get(position).getName());
+        Picasso.get().load(categoryList.get(position).getImageURL()).into(holder.gridIcon);
+
+//        holder.gridIcon.setImageResource(images.get(position));
         holder.catalogGridview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +57,12 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return categoryList.size();
+    }
+
+    public void setData(List<Category> categoryList) {
+        this.categoryList = categoryList;
+        notifyDataSetChanged();
     }
 
     public class CatalogViewHolder extends RecyclerView.ViewHolder {

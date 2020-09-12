@@ -15,31 +15,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.activities.CatalogActivity;
+import com.example.sunnyenterprise.model.Company;
 
 import java.util.List;
 
 public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHolder> {
-    List<String> titles;
-    List<Integer> images;
-    LayoutInflater inflater;
+    /*List<String> titles;
+    List<Integer> images;*/
+    Context context;
+    List<Company> companyList;
 
-    public CompanyAdapter(Context ctx, List<String> titles, List<Integer> images) {
-        this.titles = titles;
-        this.images = images;
-        this.inflater = LayoutInflater.from(ctx);
+    public CompanyAdapter(Context context, List<Company> companyList) {
+        this.companyList = companyList;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.company_grid_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.company_grid_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.title.setText(titles.get(position));
-        holder.gridIcon.setImageResource(images.get(position));
+        holder.title.setText(companyList.get(position).getName());
 
         holder.gridView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,12 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return companyList.size();
+    }
+
+    public void setData(List<Company> companyList) {
+        this.companyList = companyList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

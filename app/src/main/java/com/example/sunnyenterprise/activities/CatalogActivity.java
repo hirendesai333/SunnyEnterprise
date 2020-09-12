@@ -1,24 +1,30 @@
 package com.example.sunnyenterprise.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.CatalogAdapter;
+import com.example.sunnyenterprise.model.Category;
+import com.example.sunnyenterprise.retrofit.ApiCallInterface;
+import com.example.sunnyenterprise.retrofit.ApiService;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CatalogActivity extends AppCompatActivity {
     RecyclerView dataList;
@@ -27,6 +33,12 @@ public class CatalogActivity extends AppCompatActivity {
     CatalogAdapter catalogAdapter;
 
     TextView textView;
+
+    List<Category> categoryList;
+
+    ApiCallInterface api;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +52,7 @@ public class CatalogActivity extends AppCompatActivity {
         textView.setText(title);
 
         dataList = findViewById(R.id.catalogRecyclerView);
-        titles = new ArrayList<>();
+        /*titles = new ArrayList<>();
         images = new ArrayList<>();
 
         titles.add("First catalog");
@@ -55,29 +67,27 @@ public class CatalogActivity extends AppCompatActivity {
         images.add(R.drawable.catalog);
         images.add(R.drawable.catalog);
         images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
+        images.add(R.drawable.catalog);*/
 
-        catalogAdapter = new CatalogAdapter(this, titles, images);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
+        /*GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         dataList.setLayoutManager(gridLayoutManager);
-        dataList.setAdapter(catalogAdapter);
+        dataList.setAdapter(catalogAdapter);*/
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+        dataList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        dataList.setLayoutManager(layoutManager);
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder target, int direction) {
-                int position = target.getAdapterPosition();
-                titles.remove(position);
-                images.remove(position);
-                catalogAdapter.notifyDataSetChanged();
-            }
-        });
-        itemTouchHelper.attachToRecyclerView(dataList);
+        catalogAdapter = new CatalogAdapter(this, categoryList);
+
+        /*Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://avanshield.com/sunnyapi/api/collections/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();*/
+
+        api = ApiService.createService(ApiCallInterface.class);
+
+        getCategories();
 
         ImageView imageView = findViewById(R.id.backImageCatalog);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -88,5 +98,32 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getCategories() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Content Loader");
+        progressDialog.setProgress(10);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        Call<List<Category>> call = api.getCategories();
+
+        call.enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                progressDialog.cancel();
+                categoryList = response.body();
+                catalogAdapter.setData(categoryList);
+                dataList.setAdapter(catalogAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                Toast.makeText(CatalogActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

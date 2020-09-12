@@ -11,29 +11,39 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activities.OrderActivity"
+
+        <activity
+            android:name=".activities.OrderActivity"
             android:theme="@style/NoTitleTheme"></activity>
+
         <activity
             android:name=".activities.NotificationActivity"
             android:theme="@style/NoTitleTheme" />
+
         <activity
             android:name=".activities.AddToCartActivity"
             android:theme="@style/NoTitleTheme" />
+
         <activity
             android:name=".activities.ProductDetailsActivity"
             android:theme="@style/NoTitleTheme" />
+
         <activity
             android:name=".activities.ProductActivity"
             android:label="Products"
             android:theme="@style/NoTitleTheme" />
+
         <activity
             android:name=".activities.CatalogActivity"
             android:label="Catalog"
             android:theme="@style/NoTitleTheme" />
+
         <activity
             android:name=".activities.HomeActivity"
             android:theme="@style/NoTitleTheme" />
+
         <activity android:name=".activities.LoginActivity" />
+
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +51,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
