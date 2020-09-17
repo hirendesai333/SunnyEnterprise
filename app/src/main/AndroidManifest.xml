@@ -26,9 +26,7 @@
 
         <activity
             android:name=".activities.ProductDetailsActivity"
-            android:theme="@style/NoTitleTheme">
-
-        </activity>
+            android:theme="@style/NoTitleTheme" />
 
         <activity
             android:name=".activities.ProductActivity"
@@ -42,24 +40,16 @@
 
         <activity
             android:name=".activities.HomeActivity"
-            android:theme="@style/NoTitleTheme">
+            android:theme="@style/NoTitleTheme" />
 
-
-
-        </activity>
-
-        <activity android:name=".activities.LoginActivity"/>
+        <activity android:name=".activities.LoginActivity" />
 
         <activity android:name=".activities.SplashActivity">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
 
     </application>

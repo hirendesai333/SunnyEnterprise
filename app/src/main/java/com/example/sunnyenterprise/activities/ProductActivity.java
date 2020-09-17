@@ -81,7 +81,10 @@ public class ProductActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        Call<Product> call = api.getProducts(29, 0, 10000);
+        Intent i = getIntent();
+        String getCatId = i.getStringExtra("cat_id");
+
+        Call<Product> call = api.getProducts(Integer.parseInt(getCatId), 0, 10000);
 
         call.enqueue(new Callback<Product>() {
             @Override

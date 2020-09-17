@@ -20,8 +20,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder> {
-    /*List<String> titles;
-    List<Integer> images;*/
     Context context;
     List<Category> categoryList;
 
@@ -38,16 +36,18 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CatalogAdapter.CatalogViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CatalogAdapter.CatalogViewHolder holder, final int position) {
         holder.title.setText(categoryList.get(position).getName());
-        Picasso.get().load(categoryList.get(position).getImageURL()).into(holder.gridIcon);
+        Picasso.get().
+                load(categoryList.get(position).getImageURL())
+                .into(holder.gridIcon);
 
-//        holder.gridIcon.setImageResource(images.get(position));
         holder.catalogGridview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ProductActivity.class);
                 intent.putExtra("titleCatalog", String.valueOf(holder.title.getText()));
+                intent.putExtra("cat_id", String.valueOf(categoryList.get(position).getId()));
                 view.getContext().startActivity(intent);
             }
         });

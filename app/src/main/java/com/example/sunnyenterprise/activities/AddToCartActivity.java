@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
@@ -39,11 +40,15 @@ public class AddToCartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_to_cart);
 
         productList = findViewById(R.id.addTocartRecyclerView);
+        productList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        productList.setLayoutManager(layoutManager);
+
         addToCartAdapter = new AddToCartAdapter(this, cartLists);
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        Call<List<CartList>> call = api.getCartList();
+        Call<List<CartList>> call = api.getCartList(1);
 
         call.enqueue(new Callback<List<CartList>>() {
             @Override

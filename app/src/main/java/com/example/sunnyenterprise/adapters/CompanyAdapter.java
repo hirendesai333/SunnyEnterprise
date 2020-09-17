@@ -45,6 +45,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CatalogActivity.class);
                 intent.putExtra("title", String.valueOf(holder.title.getText()));
+                intent.putExtra("companyid",String.valueOf(companyList.get(position).getId()));
                 view.getContext().startActivity(intent);
             }
         });
@@ -70,6 +71,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
             title = itemView.findViewById(R.id.textView2);
             gridIcon = itemView.findViewById(R.id.imageView2);
             gridView = itemView.findViewById(R.id.compantGrid);
+
         }
     }
 }

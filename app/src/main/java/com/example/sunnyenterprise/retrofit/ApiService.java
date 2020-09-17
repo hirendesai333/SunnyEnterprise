@@ -25,5 +25,5 @@ public class ApiService {
         Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
-
+ 
 }

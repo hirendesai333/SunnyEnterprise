@@ -44,10 +44,10 @@
         android:layout_height="50dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/rounded_edittext"
-        android:textSize="14sp"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/etMobile"
         app:layout_constraintStart_toStartOf="@+id/etMobile"
         app:layout_constraintTop_toBottomOf="@+id/etMobile" />

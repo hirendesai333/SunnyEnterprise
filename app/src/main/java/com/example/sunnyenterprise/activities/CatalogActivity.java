@@ -50,38 +50,12 @@ public class CatalogActivity extends AppCompatActivity {
         textView.setText(title);
 
         dataList = findViewById(R.id.catalogRecyclerView);
-        /*titles = new ArrayList<>();
-        images = new ArrayList<>();
-
-        titles.add("First catalog");
-        titles.add("Second catalog");
-        titles.add("Third catalog");
-        titles.add("Fourth catalog");
-        titles.add("Fifth catalog");
-        titles.add("Sixth catalog");
-
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.catalog);*/
-
-
-        /*GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
-        dataList.setLayoutManager(gridLayoutManager);
-        dataList.setAdapter(catalogAdapter);*/
 
         dataList.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         dataList.setLayoutManager(layoutManager);
 
         catalogAdapter = new CatalogAdapter(this, categoryList);
-
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://avanshield.com/sunnyapi/api/collections/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();*/
 
         api = ApiService.createService(ApiCallInterface.class);
 
@@ -105,7 +79,10 @@ public class CatalogActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        Call<List<Category>> call = api.getCategories();
+        Intent i = getIntent();
+        String companyID = i.getStringExtra("companyid");
+
+        Call<List<Category>> call = api.getCategories(Integer.parseInt(companyID));
 
         call.enqueue(new Callback<List<Category>>() {
             @Override
@@ -114,6 +91,7 @@ public class CatalogActivity extends AppCompatActivity {
                 categoryList = response.body();
                 catalogAdapter.setData(categoryList);
                 dataList.setAdapter(catalogAdapter);
+
             }
 
             @Override

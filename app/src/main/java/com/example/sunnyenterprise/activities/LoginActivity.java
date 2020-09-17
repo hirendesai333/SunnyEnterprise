@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,12 +15,8 @@ import android.widget.Toast;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.loginModel.Item;
 import com.example.sunnyenterprise.model.loginModel.Login;
-import com.example.sunnyenterprise.model.productDetailModel.SingleProduct;
-import com.example.sunnyenterprise.model.productModel.Product;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,9 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         etPass = findViewById(R.id.etPassword);
         final Button button = findViewById(R.id.loginBtn);
 
-        final String mobileNum = etMob.getText().toString();
-        final String password = etPass.getText().toString();
-
         api = ApiService.createService(ApiCallInterface.class);
 
         Call<Login> call = api.getLoginDetails("9601258730", "1234");
@@ -56,6 +50,27 @@ public class LoginActivity extends AppCompatActivity {
                 final String responseMob = loginDetails.getMobile();
                 final String responsePass = loginDetails.getPassword();
 
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String mobileNum = etMob.getText().toString();
+                        final String password = etPass.getText().toString();
+
+                        if (mobileNum.isEmpty() || password.isEmpty()){
+                            Toast.makeText(LoginActivity.this, "fill the details!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (responseMob.equals(mobileNum) && responsePass.equals(password)){
+                                Toast.makeText(LoginActivity.this, "matched!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(intent);
+                            }else {
+                                Toast.makeText(LoginActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+                });
+
             }
 
             @Override
@@ -64,14 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
     }
+
 }

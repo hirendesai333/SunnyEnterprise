@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -119,11 +120,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         dataList = findViewById(R.id.dataList);
-        dataList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        dataList.setLayoutManager(layoutManager);
 
         companyAdapter = new CompanyAdapter(getApplicationContext(), companyList);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        dataList.setLayoutManager(gridLayoutManager);
 
         api = ApiService.createService(ApiCallInterface.class);
 
@@ -168,11 +168,13 @@ public class HomeActivity extends AppCompatActivity {
                 companyList = response.body();
                 companyAdapter.setData(companyList);
                 dataList.setAdapter(companyAdapter);
+
             }
 
             @Override
             public void onFailure(Call<List<Company>> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -188,6 +190,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finishAffinity();
         finish();
     }
 }

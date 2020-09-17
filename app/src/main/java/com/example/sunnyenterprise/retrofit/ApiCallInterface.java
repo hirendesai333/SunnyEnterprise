@@ -26,8 +26,10 @@ public interface ApiCallInterface {
     @GET("collections/companies")
     Call<List<Company>> getCompanies();
 
-    @GET("collections/category?companyId=19")
-    Call<List<Category>> getCategories();
+    @GET("collections/category")
+    Call<List<Category>> getCategories(
+            @Query("companyId") int companyId
+    );
 
     @GET("product/GetProducts")
     Call<Product> getProducts(
@@ -48,7 +50,7 @@ public interface ApiCallInterface {
     @POST("cart/AddCart")
     Call<AddCart> postData(@Body AddCart addCart);
 
-    @GET("cart/Cart/1")
-    Call<List<CartList>> getCartList();
+    @GET("cart/Cart/{customerId}")
+    Call<List<CartList>> getCartList(@Path("customerId") int customerId);
 
 }

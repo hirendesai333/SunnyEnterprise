@@ -14,6 +14,7 @@ import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.cartListModel.CartList;
 import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,7 +45,13 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(cartLists.get(position).getName());
         holder.ccolor.setText(cartLists.get(position).getColorName());
-//        holder.cgridIcon.setImageResource(images.get(position));
+        holder.cQuantity.setText("Item: "+cartLists.get(position).getQuantity());
+        holder.cSizeCode.setText(cartLists.get(position).getSizeCode());
+
+        Picasso.get()
+                .load(cartLists.get(position).getImageUrl())
+                .fit()
+                .into(holder.cgridIcon);
 
     }
 
@@ -59,9 +66,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
 
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle,ccolor;
+        TextView ctitle,ccolor,cQuantity,cSizeCode;
         ImageView cgridIcon;
 //        CardView cproductgridView;
 
@@ -70,6 +76,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
             ctitle = itemView.findViewById(R.id.textViewAddToCart);
             cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
             ccolor = itemView.findViewById(R.id.colorText);
+            cQuantity = itemView.findViewById(R.id.tvQuantity);
+            cSizeCode = itemView.findViewById(R.id.tvSizeCode);
 
         }
 
