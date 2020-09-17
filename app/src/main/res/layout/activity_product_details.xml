@@ -15,10 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    <com.smarteist.autoimageslider.SliderLayout
+            android:id="@+id/productImageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarProductDetails" />-->
 
-
-    <com.smarteist.autoimageslider.SliderLayout
-        android:id="@+id/productImageSlider"
+    <ImageView
+        android:id="@+id/imageProduct"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
@@ -40,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productImageSlider">
+        app:layout_constraintTop_toBottomOf="@+id/imageProduct">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -53,7 +63,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textStyle"
+                    android:id="@+id/tvStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Style: "
@@ -82,7 +92,12 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <RadioGroup
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerviewColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <!--<RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -123,7 +138,7 @@
                             android:buttonTint="#fc2c03"
                             android:checked="true" />
 
-                    </RadioGroup>
+                    </RadioGroup>-->
 
 
                 </LinearLayout>
@@ -141,7 +156,12 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerviewSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <!--<LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -239,7 +259,7 @@
                             android:layout_marginEnd="20dp"
                             android:hint="Enter Qty"
                             android:inputType="number" />
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                 </LinearLayout>
 

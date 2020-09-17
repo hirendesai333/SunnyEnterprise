@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.adapters.CatalogAdapter;
 import com.example.sunnyenterprise.adapters.NotificationAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
+        Toast.makeText(NotificationActivity.this, "Swipe to remove the notification", Toast.LENGTH_SHORT).show();
 
         notifyList = findViewById(R.id.notificationRecyclerview);
         titles = new ArrayList<>();

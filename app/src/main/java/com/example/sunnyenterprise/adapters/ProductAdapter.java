@@ -13,20 +13,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.activities.CatalogActivity;
-import com.example.sunnyenterprise.activities.ProductActivity;
 import com.example.sunnyenterprise.activities.ProductDetailsActivity;
+import com.example.sunnyenterprise.model.productModel.Value;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
-    List<String> titles;
-    List<Integer> images;
+    List<Value> pList;
     LayoutInflater inflater;
 
-    public ProductAdapter(Context ctx, List<String> titles, List<Integer> images) {
-        this.titles = titles;
-        this.images = images;
+    public ProductAdapter(Context ctx, List<Value> pList) {
+        this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
     }
 
@@ -39,8 +37,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ProductAdapter.ViewHolder holder, int position) {
-        holder.ptitle.setText(titles.get(position));
-        holder.pgridIcon.setImageResource(images.get(position));
+        holder.ptitle.setText(pList.get(position).getName());
+        Picasso.get().load(pList.get(position).getImageUrl()).into(holder.pgridIcon);
 
         holder.productgridView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,13 +52,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return pList.size();
+    }
+
+    public void setData(List<Value> pList) {
+        this.pList = pList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView ptitle;
         ImageView pgridIcon;
         CardView productgridView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ptitle = itemView.findViewById(R.id.productName);

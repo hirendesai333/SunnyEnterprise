@@ -1,57 +1,138 @@
 package com.example.sunnyenterprise.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
+import com.example.sunnyenterprise.adapters.ProductColorAdapter;
+import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
+import com.example.sunnyenterprise.model.addCartModel.AddCart;
+import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
+import com.example.sunnyenterprise.model.loginModel.Login;
+import com.example.sunnyenterprise.model.productDetailModel.Color;
+import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
+import com.example.sunnyenterprise.model.productDetailModel.ProductImage;
+import com.example.sunnyenterprise.model.productDetailModel.SingleProduct;
+import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
+import com.example.sunnyenterprise.retrofit.ApiCallInterface;
+import com.example.sunnyenterprise.retrofit.ApiService;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
-public class ProductDetailsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
     SliderLayout sliderLayout;
-
-    TextView textView;
-
+    TextView textView, tvPrice, tvStyle;
     Button addtocartButton;
+    ApiCallInterface api;
+    Double singleProduct;
+    RecyclerView sizeList, colorList;
 
+    //adapters
+    ProductSizeAdapter productSizeAdapter;
+    ProductColorAdapter productColorAdapter;
+
+    List<Size> pList;
+    List<Color> cList;
+
+    String imageurl;
+    ImageView imageViewProduct;
+
+    private static final int slug = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        //        Toolbar toolbar = findViewById(R.id.toolBar);
+        tvPrice = findViewById(R.id.textMrp);
+        tvStyle = findViewById(R.id.tvStyle);
+
+        sizeList = findViewById(R.id.recyclerviewSize);
+        sizeList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        sizeList.setLayoutManager(layoutManager);
+
+        colorList = findViewById(R.id.recyclerviewColor);
+        colorList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        colorList.setLayoutManager(layoutManager2);
+
+        imageViewProduct = findViewById(R.id.imageProduct);
+
+        productSizeAdapter = new ProductSizeAdapter(this, pList);
+        productColorAdapter = new ProductColorAdapter(this, cList, this);
+
+        api = ApiService.createService(ApiCallInterface.class);
 
         Intent i = getIntent();
         String title = i.getStringExtra("productTitle");
-        /*toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        toolbar.setTitle(title);*/
-
         textView = findViewById(R.id.textViewproductDetails);
         textView.setText(title);
 
-//        getSupportActionBar().setTitle(title);
-
         //for auto imageslider
-        sliderLayout = findViewById(R.id.productImageSlider);
-        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+//        sliderLayout = findViewById(R.id.productImageSlider);
+//        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
 //        sliderLayout.setScrollTimeInSec(5);
 
-        setSliderViews();
+//        setSliderViews();
 
         addtocartButton = findViewById(R.id.addTocartBtn);
         addtocartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
-                startActivity(cartIntent);
+                long ProductId = 182;
+                long CustomerId = 1;
+                long sizeId = 1;
+                long quantity = 100;
+
+//                SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
+                AddCart addCart = new AddCart(ProductId, CustomerId);
+
+                Call<AddCart> cartCall = api.postData(addCart);
+                cartCall.enqueue(new Callback<AddCart>() {
+                    @Override
+                    public void onResponse(Call<AddCart> call, Response<AddCart> response) {
+                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+
+                        AddCart addCartResponse = response.body();
+
+                        /*long id1 = addCartResponse.getCustomerId();
+                        long id2 = addCartResponse.getProductId();
+
+                        Log.d("addCartResponse", String.valueOf(id1));
+                        Log.d("addCartResponse", String.valueOf(id2));*/
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddCart> call, Throwable t) {
+                        Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                /*Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
+                startActivity(cartIntent);*/
             }
         });
 
@@ -64,13 +145,76 @@ public class ProductDetailsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onItemClick(final int position) {
+        Call<ProductDetails> call = api.getProductDetail(slug);
+        call.enqueue(new Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                final String slugtoBecompared = response.body().getSingleProduct().getColors().get(0).getSlug();
+
+                if (slug == Integer.parseInt(slugtoBecompared)) {
+                    onResume();
+                    Toast.makeText(ProductDetailsActivity.this, "matched!", Toast.LENGTH_SHORT).show();
+                    onResume();
+                    Log.d("onResume", "onResumeCalled Second time");
+
+                } else {
+                    Toast.makeText(ProductDetailsActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+                Toast.makeText(ProductDetailsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume", "onResumeCalled First time");
+        Call<ProductDetails> call = api.getProductDetail(slug);
+
+        call.enqueue(new Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                singleProduct = response.body().getSingleProduct().getPrice();
+                double price = singleProduct;
+                tvPrice.setText("Mrp: " + price);
+
+                String productName = response.body().getSingleProduct().getName();
+                tvStyle.setText("Style: " + productName);
+
+                pList = response.body().getSingleProduct().getSizes();
+                productSizeAdapter.setData(pList);
+                sizeList.setAdapter(productSizeAdapter);
+
+                imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
+                Picasso.get().load(imageurl).into(imageViewProduct);
+
+                cList = response.body().getSingleProduct().getColors();
+                productColorAdapter.setData(cList);
+                colorList.setAdapter(productColorAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+                Toast.makeText(ProductDetailsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void setSliderViews() {
         for (int i = 0; i <= 1; i++) {
             SliderView sliderView = new SliderView(this);
             switch (i) {
                 case 0:
-                    sliderView.setImageUrl("https://www.americommerce.com/images/X-product-pages-that-make-us-want-to-buy.png");
-//                    sliderView.setImageDrawable(R.drawable.shirt);
+//                    sliderView.setImageUrl("https://www.americommerce.com/images/X-product-pages-that-make-us-want-to-buy.png");
+                    sliderView.setImageDrawable(R.drawable.productimage);
                     break;
             }
 
@@ -85,7 +229,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
             sliderLayout.addSliderView(sliderView);
 
         }
-
-
     }
+
 }

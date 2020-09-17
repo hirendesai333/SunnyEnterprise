@@ -13,10 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.activities.CatalogActivity;
 import com.example.sunnyenterprise.activities.ProductActivity;
-import com.example.sunnyenterprise.model.Category;
-import com.example.sunnyenterprise.model.Company;
+import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

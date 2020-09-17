@@ -8,9 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.model.Banner;
+import com.example.sunnyenterprise.model.bannerModel.Banner;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -50,7 +49,12 @@ public class FlipperAdapter extends BaseAdapter {
         ImageView imageView = view.findViewById(R.id.imageView);
         textView.setText(banner.getText());
 
-        Picasso.get().load(banner.getImgURL()).into(imageView);
+        Picasso.get()
+                .load(banner.getImgURL())
+                .fit()
+                .into(imageView);
+
         return view;
+
     }
 }

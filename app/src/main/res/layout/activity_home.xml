@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/imageViewCart"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +39,8 @@
 
             <ImageView
                 android:id="@+id/imageViewNotificatino"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageViewCart"
                 app:layout_constraintEnd_toStartOf="@+id/imageViewCart"
@@ -50,8 +49,8 @@
 
             <ImageView
                 android:id="@+id/imageViewOpenMenu"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/toolbar2"
@@ -88,14 +87,6 @@
             android:layout_margin="10dp">
 
         </AdapterViewFlipper>
-
-        <LinearLayout
-            android:id="@+id/SliderDots"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewPager"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal" />
 
         <TextView
             android:layout_width="match_parent"

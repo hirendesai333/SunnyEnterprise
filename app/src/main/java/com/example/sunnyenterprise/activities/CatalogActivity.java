@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.CatalogAdapter;
-import com.example.sunnyenterprise.model.Category;
+import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 
@@ -23,8 +23,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CatalogActivity extends AppCompatActivity {
     RecyclerView dataList;

@@ -4,27 +4,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.adapters.CompanyAdapter;
 import com.example.sunnyenterprise.adapters.ProductAdapter;
+import com.example.sunnyenterprise.model.productModel.Product;
+import com.example.sunnyenterprise.model.productModel.Value;
+import com.example.sunnyenterprise.retrofit.ApiCallInterface;
+import com.example.sunnyenterprise.retrofit.ApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProductActivity extends AppCompatActivity {
-    RecyclerView productList;
-    List<String> titles;
-    List<Integer> images;
+    RecyclerView rvProducts;
+    /*List<String> titles;
+    List<Integer> images;*/
     ProductAdapter productAdapter;
 
     TextView textViewProductTil;
+
+    List<Value> productsList;
+
+    ApiCallInterface api;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,31 +53,16 @@ public class ProductActivity extends AppCompatActivity {
         textViewProductTil = findViewById(R.id.tvProductTitle);
         textViewProductTil.setText(titleProduct);
 
+        rvProducts = findViewById(R.id.productRecyclerview);
 
-        productList = findViewById(R.id.productRecyclerview);
-        titles = new ArrayList<>();
-        images = new ArrayList<>();
-
-        titles.add("First product");
-        titles.add("Second product");
-        titles.add("Third product");
-        titles.add("Fourth product");
-        titles.add("Fifth product");
-        titles.add("Sixth product");
-
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-        images.add(R.drawable.product);
-
-        productAdapter = new ProductAdapter(this, titles, images);
+        productAdapter = new ProductAdapter(this, productsList);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-        productList.setLayoutManager(gridLayoutManager);
-        productList.setAdapter(productAdapter);
+        rvProducts.setLayoutManager(gridLayoutManager);
+
+        api = ApiService.createService(ApiCallInterface.class);
+
+        getProducts();
 
         ImageView imageView = findViewById(R.id.imageViewProductback);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -73,4 +72,33 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getProducts() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Content Loader");
+        progressDialog.setProgress(10);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        Call<Product> call = api.getProducts(29, 0, 10000);
+
+        call.enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                progressDialog.cancel();
+                productsList = response.body().getValues();
+                productAdapter.setData(productsList);
+                rvProducts.setAdapter(productAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Toast.makeText(ProductActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("onFailure", "onFailure called: " + t.getLocalizedMessage());
+
+            }
+        });
+    }
+
 }

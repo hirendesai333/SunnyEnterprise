@@ -1,4 +1,4 @@
-package com.example.sunnyenterprise.model;
+package com.example.sunnyenterprise.model.categoryModel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
