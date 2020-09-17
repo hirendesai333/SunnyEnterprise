@@ -42,7 +42,26 @@ public class AddToCartActivity extends AppCompatActivity {
         addToCartAdapter = new AddToCartAdapter(this, cartLists);
 
         api = ApiService.createService(ApiCallInterface.class);
-        getCartList();
+
+        Call<List<CartList>> call = api.getCartList();
+
+        call.enqueue(new Callback<List<CartList>>() {
+            @Override
+            public void onResponse(Call<List<CartList>> call, Response<List<CartList>> response) {
+                cartLists = response.body();
+                addToCartAdapter.setData(cartLists);
+                productList.setAdapter(addToCartAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CartList>> call, Throwable t) {
+                Toast.makeText(AddToCartActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+//        getCartList();
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromCart);
         imageViewbackCart.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +72,7 @@ public class AddToCartActivity extends AppCompatActivity {
         });
     }
 
-    private void getCartList() {
+/*    private void getCartList() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Content Loader");
         progressDialog.setProgress(10);
@@ -68,7 +87,6 @@ public class AddToCartActivity extends AppCompatActivity {
             public void onResponse(Call<List<CartList>> call, Response<List<CartList>> response) {
                 progressDialog.cancel();
                 cartLists = response.body();
-                String name = cartLists.get(0).getName();
                 addToCartAdapter.setData(cartLists);
                 productList.setAdapter(addToCartAdapter);
 
@@ -81,5 +99,5 @@ public class AddToCartActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }

@@ -29,6 +29,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
         this.colors = colors;*/
         this.cartLists = cartLists;
         this.inflater = LayoutInflater.from(mContext);
+
     }
 
     @NonNull
@@ -36,12 +37,13 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.add_to_cart_grid_layout, parent, false);
         return new ViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(cartLists.get(position).getName());
-//        holder.ccolor.setText(colors.get(position));
+        holder.ccolor.setText(cartLists.get(position).getColorName());
 //        holder.cgridIcon.setImageResource(images.get(position));
 
     }
@@ -54,6 +56,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public void setData(List<CartList> cartLists) {
         this.cartLists = cartLists;
         notifyDataSetChanged();
+
     }
 
 
@@ -69,5 +72,6 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
             ccolor = itemView.findViewById(R.id.colorText);
 
         }
+
     }
 }
