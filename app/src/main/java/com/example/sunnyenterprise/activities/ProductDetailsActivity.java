@@ -1,30 +1,24 @@
 package com.example.sunnyenterprise.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.ProductColorAdapter;
 import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
 import com.example.sunnyenterprise.model.addCartModel.AddCart;
-import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
-import com.example.sunnyenterprise.model.loginModel.Login;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
-import com.example.sunnyenterprise.model.productDetailModel.ProductImage;
-import com.example.sunnyenterprise.model.productDetailModel.SingleProduct;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
@@ -33,7 +27,6 @@ import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,7 +51,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     String imageurl;
     ImageView imageViewProduct;
 
-    private static final int slug = 123;
+    private static final String slug = "123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,23 +139,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     }
 
     @Override
-    public void onItemClick(final int position) {
+    public void onItemClick(final int position, final String slug) {
         Call<ProductDetails> call = api.getProductDetail(slug);
         call.enqueue(new Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
-                final String slugtoBecompared = response.body().getSingleProduct().getColors().get(0).getSlug();
-
-                if (slug == Integer.parseInt(slugtoBecompared)) {
-                    onResume();
-                    Toast.makeText(ProductDetailsActivity.this, "matched!", Toast.LENGTH_SHORT).show();
-                    onResume();
-                    Log.d("onResume", "onResumeCalled Second time");
-
-                } else {
-                    Toast.makeText(ProductDetailsActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
-                }
-
+                getProductDetails(response.body().getSingleProduct().getSlug());
             }
 
             @Override
@@ -175,8 +157,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("onResume", "onResumeCalled First time");
-        Call<ProductDetails> call = api.getProductDetail(slug);
+        getProductDetails(slug);
+    }
+
+    private void getProductDetails(String newSlug) {
+        Call<ProductDetails> call = api.getProductDetail(newSlug);
 
         call.enqueue(new Callback<ProductDetails>() {
             @Override
@@ -192,13 +177,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                 productSizeAdapter.setData(pList);
                 sizeList.setAdapter(productSizeAdapter);
 
-                imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
-                Picasso.get().load(imageurl).into(imageViewProduct);
+                if (response.body().getSingleProduct().getProductImages().size() > 0) {
+                    imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
+                    Picasso.get().load(imageurl).into(imageViewProduct);
+                }
 
                 cList = response.body().getSingleProduct().getColors();
-                productColorAdapter.setData(cList);
+                productColorAdapter.setData(cList, response.body().getSingleProduct());
                 colorList.setAdapter(productColorAdapter);
-
             }
 
             @Override

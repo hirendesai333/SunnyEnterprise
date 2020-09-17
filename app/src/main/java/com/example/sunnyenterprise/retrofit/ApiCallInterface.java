@@ -45,7 +45,7 @@ public interface ApiCallInterface {
     );
 
     @GET("product/GetProductBySlug/{slug}")
-    Call<ProductDetails> getProductDetail(@Path("slug") int slug);
+    Call<ProductDetails> getProductDetail(@Path("slug") String slug);
 
     @POST("cart/AddCart")
     Call<AddCart> postData(@Body AddCart addCart);

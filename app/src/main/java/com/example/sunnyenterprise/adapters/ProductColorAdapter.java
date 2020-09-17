@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -12,14 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
+import com.example.sunnyenterprise.model.productDetailModel.SingleProduct;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 
 import java.util.List;
 
 public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapter.ViewHolder> {
+
     List<Color> pList;
     LayoutInflater inflater;
     private RecyclerViewClickInterface recyclerViewClickInterface;
+    SingleProduct singleProduct;
 
     public ProductColorAdapter(Context ctx, List<Color> pList, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.pList = pList;
@@ -36,12 +41,17 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.radioButton.setTextColor(
-                android.graphics.Color.parseColor("#000000")
-        );
-
+        if (singleProduct.getSlug().equals(pList.get(position).getSlug())) {
+            holder.radioButton.setChecked(true);
+        } else {
+            holder.radioButton.setChecked(false);
+        }
+        holder.radioButton.setTextColor(android.graphics.Color.parseColor("#000000"));
         holder.textView.setText(pList.get(position).getName());
-
+        holder.rootLayout.setOnClickListener(view -> recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug()));
+        holder.radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug());
+        });
     }
 
     @Override
@@ -49,26 +59,22 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         return pList.size();
     }
 
-    public void setData(List<Color> pList) {
+    public void setData(List<Color> pList, SingleProduct singleProduct) {
         this.pList = pList;
+        this.singleProduct = singleProduct;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
         TextView textView;
+        LinearLayout rootLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButtonColor);
             textView = itemView.findViewById(R.id.textViewColorName);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    recyclerViewClickInterface.onItemClick(getAdapterPosition());
-                }
-            });
+            rootLayout = itemView.findViewById(R.id.root_layout);
         }
     }
 }
