@@ -28,8 +28,6 @@ import retrofit2.Response;
 
 public class ProductActivity extends AppCompatActivity {
     RecyclerView rvProducts;
-    /*List<String> titles;
-    List<Integer> images;*/
     ProductAdapter productAdapter;
 
     TextView textViewProductTil;
@@ -39,13 +37,12 @@ public class ProductActivity extends AppCompatActivity {
     ApiCallInterface api;
 
     ProgressDialog progressDialog;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-
-//        Toolbar toolbarProduct = findViewById(R.id.toolbarProduct);
 
         Intent intentget = getIntent();
         String titleProduct = intentget.getStringExtra("titleCatalog");
@@ -65,17 +62,11 @@ public class ProductActivity extends AppCompatActivity {
         getProducts();
 
         ImageView imageView = findViewById(R.id.imageViewProductback);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        imageView.setOnClickListener(view -> onBackPressed());
     }
 
     private void getProducts() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Content Loader");
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");

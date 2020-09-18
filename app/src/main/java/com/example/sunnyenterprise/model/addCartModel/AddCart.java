@@ -6,20 +6,19 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AddCart {
-
-    @Expose
     @SerializedName("ProductId")
+    @Expose
     private Long mProductId;
 
-    @Expose
     @SerializedName("CustomerId")
+    @Expose
     private Long mCustomerId;
 
-    @Expose
     @SerializedName("sizeQuantities")
-    private List<SizeQuantity> mSizeQuantities;
+    @Expose
+    private List<SizeQuantity> mSizeQuantities = null;
 
-    public AddCart(Long mProductId, Long mCustomerId, List<SizeQuantity> mSizeQuantities    ) {
+    public AddCart(Long mProductId, Long mCustomerId) {
         this.mProductId = mProductId;
         this.mCustomerId = mCustomerId;
         this.mSizeQuantities = mSizeQuantities;

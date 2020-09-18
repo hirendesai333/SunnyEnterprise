@@ -51,12 +51,7 @@ public class AddToCartActivity extends AppCompatActivity {
         getCartList();
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromCart);
-        imageViewbackCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        imageViewbackCart.setOnClickListener(view -> onBackPressed());
     }
 
     private void getCartList() {
@@ -73,7 +68,6 @@ public class AddToCartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<CartList>> call, Response<List<CartList>> response) {
                 progressDialog.cancel();
-
                 cartLists = response.body();
                 addToCartAdapter.setData(cartLists);
                 productList.setAdapter(addToCartAdapter);

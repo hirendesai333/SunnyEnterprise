@@ -73,7 +73,6 @@ public class CatalogActivity extends AppCompatActivity {
 
     private void getCategories() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Content Loader");
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");

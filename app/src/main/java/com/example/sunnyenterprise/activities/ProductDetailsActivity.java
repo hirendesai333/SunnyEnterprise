@@ -1,7 +1,10 @@
 package com.example.sunnyenterprise.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,9 +50,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     List<Size> pList;
     List<Color> cList;
+    List<SizeQuantity> sizeQuantity;
 
     String imageurl;
     ImageView imageViewProduct;
+
+    ProgressDialog progressDialog;
 
     private static final String slug = "123";
 
@@ -71,11 +78,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         colorList.setLayoutManager(layoutManager2);
 
         imageViewProduct = findViewById(R.id.imageProduct);
+        addtocartButton = findViewById(R.id.addTocartBtn);
 
         productSizeAdapter = new ProductSizeAdapter(this, pList);
         productColorAdapter = new ProductColorAdapter(this, cList, this);
-
-        api = ApiService.createService(ApiCallInterface.class);
 
         Intent i = getIntent();
         String title = i.getStringExtra("productTitle");
@@ -84,42 +90,48 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         long ProductId = Long.parseLong(i.getStringExtra("product_id"));
         long CustomerId = 1;
-        long sizeId = 1;
-        long quantity = 100;
+        int sizeId = 1;
+        int quantity = 50;
 
-        addtocartButton = findViewById(R.id.addTocartBtn);
-        addtocartButton.setOnClickListener(view -> {
+//        sizeQuantity = (List<SizeQuantity>) new SizeQuantity(sizeId, quantity);
+        AddCart addCart = new AddCart(ProductId, CustomerId);
 
-            List<SizeQuantity> sizeQuantity = Collections.singletonList(new SizeQuantity(sizeId, quantity));
-            AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantity);
+        api = ApiService.createService(ApiCallInterface.class);
 
-            Call<AddCart> cartCall = api.postData(addCart);
-            cartCall.enqueue(new Callback<AddCart>() {
-                @Override
-                public void onResponse(Call<AddCart> call, Response<AddCart> response) {
-                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                    Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
-                    startActivity(cartIntent);
+        addtocartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<AddCart> cartCall = api.postData(addCart);
+                cartCall.enqueue(new Callback<AddCart>() {
+                    @Override
+                    public void onResponse(Call<AddCart> call, Response<AddCart> response) {
+                        Log.d("ProductId", String.valueOf(response.body().getProductId()));
+                        Log.d("CustomerId", String.valueOf(response.body().getCustomerId()));
+//                        Log.d("ProductId", String.valueOf(response.body().getProductId()));
 
-                }
+                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
+                        startActivity(cartIntent);
 
-                @Override
-                public void onFailure(Call<AddCart> call, Throwable t) {
-                    Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    }
 
+                    @Override
+                    public void onFailure(Call<AddCart> call, Throwable t) {
+                        Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);
         imageView.setOnClickListener(view -> onBackPressed());
 
-        //for auto imageslider
-//        sliderLayout = findViewById(R.id.productImageSlider);
-//        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-//        sliderLayout.setScrollTimeInSec(5);
+/*        for auto imageslider
+        sliderLayout = findViewById(R.id.productImageSlider);
+        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE);
+        sliderLayout.setScrollTimeInSec(5);
 
-//        setSliderViews();
+        setSliderViews();*/
     }
 
     @Override
@@ -145,11 +157,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     }
 
     private void getProductDetails(String newSlug) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgress(10);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         Call<ProductDetails> call = api.getProductDetail(newSlug);
 
         call.enqueue(new Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                progressDialog.cancel();
+
                 String productName = response.body().getSingleProduct().getName();
                 tvStyle.setText(productName);
 

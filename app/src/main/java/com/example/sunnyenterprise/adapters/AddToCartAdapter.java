@@ -19,15 +19,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.ViewHolder> {
-    /*List<String> titles,colors;
-    List<Integer> images;*/
     LayoutInflater inflater;
     List<CartList> cartLists;
 
     public AddToCartAdapter(Context mContext, List<CartList> cartLists) {
-        /*this.titles = titles;
-        this.images = images;
-        this.colors = colors;*/
         this.cartLists = cartLists;
         this.inflater = LayoutInflater.from(mContext);
 
@@ -45,7 +40,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(cartLists.get(position).getName());
         holder.ccolor.setText(cartLists.get(position).getColorName());
-        holder.cQuantity.setText("Item: "+cartLists.get(position).getQuantity());
+        holder.cQuantity.setText("Item: " + cartLists.get(position).getQuantity());
         holder.cSizeCode.setText(cartLists.get(position).getSizeCode());
 
         Picasso.get()
@@ -67,9 +62,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle,ccolor,cQuantity,cSizeCode;
+        TextView ctitle, ccolor, cQuantity, cSizeCode;
         ImageView cgridIcon;
-//        CardView cproductgridView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

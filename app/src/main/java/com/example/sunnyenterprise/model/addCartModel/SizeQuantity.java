@@ -5,33 +5,32 @@ import com.google.gson.annotations.SerializedName;
 
 public class SizeQuantity {
 
-    @Expose
     @SerializedName("SizeId")
-    private Long mSizeId;
-
     @Expose
+    private Integer sizeId;
     @SerializedName("Quantity")
-    private Long mQuantity;
+    @Expose
+    private Integer quantity;
 
-    public SizeQuantity(Long mSizeId, Long mQuantity) {
-        this.mSizeId = mSizeId;
-        this.mQuantity = mQuantity;
+    public SizeQuantity(Integer sizeId, Integer quantity) {
+        this.sizeId = sizeId;
+        this.quantity = quantity;
     }
 
-    public Long getQuantity() {
-        return mQuantity;
+    public Integer getSizeId() {
+        return sizeId;
     }
 
-    public void setQuantity(Long quantity) {
-        mQuantity = quantity;
+    public void setSizeId(Integer sizeId) {
+        this.sizeId = sizeId;
     }
 
-    public Long getSizeId() {
-        return mSizeId;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setSizeId(Long sizeId) {
-        mSizeId = sizeId;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.sunnyenterprise.activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,10 +23,18 @@ public class OrderActivity extends AppCompatActivity {
     OrderAdapter orderAdapter;
     ImageView imageViewbackCart;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgress(10);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
         productList = findViewById(R.id.orderRecyclerView);
         titles = new ArrayList<>();
@@ -59,13 +68,9 @@ public class OrderActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         productList.setLayoutManager(gridLayoutManager);
         productList.setAdapter(orderAdapter);
+        progressDialog.cancel();
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromOrder);
-        imageViewbackCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        imageViewbackCart.setOnClickListener(view -> onBackPressed());
     }
 }
