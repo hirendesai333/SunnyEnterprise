@@ -19,10 +19,10 @@ public class AddCart {
     @SerializedName("sizeQuantities")
     private List<SizeQuantity> mSizeQuantities;
 
-    public AddCart(Long mProductId, Long mCustomerId) {
+    public AddCart(Long mProductId, Long mCustomerId, List<SizeQuantity> mSizeQuantities    ) {
         this.mProductId = mProductId;
         this.mCustomerId = mCustomerId;
-//        this.mSizeQuantities = mSizeQuantities;
+        this.mSizeQuantities = mSizeQuantities;
     }
 
     public Long getCustomerId() {

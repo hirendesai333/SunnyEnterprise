@@ -30,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:fontFamily="@font/lato_bold"
         android:text="Notifications"
         android:textColor="#FFFFFF"
         android:textSize="18dp"

@@ -37,11 +37,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.notificationTitle.setText(titles.get(position));
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         String formattedDate = df.format(c.getTime());
 
         holder.notificationTime.setText(formattedDate);
-
 
     }
 

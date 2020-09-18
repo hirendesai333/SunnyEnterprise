@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
@@ -56,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    Boolean Islogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,12 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.orders:
                         Intent cartIntent = new Intent(HomeActivity.this, OrderActivity.class);
                         startActivity(cartIntent);
+                        break;
+                    case R.id.logOut:
+                        Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                        prefs.edit().putBoolean("Islogin", Islogin).commit();
+                        startActivity(loginIntent);
                         break;
                     default:
                         return true;

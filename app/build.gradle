@@ -50,7 +50,7 @@ dependencies {
     //cardview
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //picasso image loading library
+    //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //auto-image slider
@@ -67,9 +67,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
 
     implementation 'org.jetbrains:annotations-java5:15.0'
-
-    //viewpager auto image slider
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     //volley
     implementation 'com.android.volley:volley:1.1.1'

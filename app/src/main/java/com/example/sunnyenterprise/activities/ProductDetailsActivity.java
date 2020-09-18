@@ -17,6 +17,7 @@ import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.ProductColorAdapter;
 import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
 import com.example.sunnyenterprise.model.addCartModel.AddCart;
+import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
@@ -27,6 +28,7 @@ import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -91,42 +93,39 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 //        setSliderViews();
 
         addtocartButton = findViewById(R.id.addTocartBtn);
-        addtocartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                long ProductId = 182;
-                long CustomerId = 1;
-                long sizeId = 1;
-                long quantity = 100;
+        addtocartButton.setOnClickListener(view -> {
+            long ProductId = 182;
+            long CustomerId = 1;
+            long sizeId = 1;
+            long quantity = 100;
 
-//                SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
-                AddCart addCart = new AddCart(ProductId, CustomerId);
+            List<SizeQuantity> sizeQuantity = Collections.singletonList(new SizeQuantity(sizeId, quantity));
+            AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantity);
 
-                Call<AddCart> cartCall = api.postData(addCart);
-                cartCall.enqueue(new Callback<AddCart>() {
-                    @Override
-                    public void onResponse(Call<AddCart> call, Response<AddCart> response) {
-                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+            Call<AddCart> cartCall = api.postData(addCart);
+            cartCall.enqueue(new Callback<AddCart>() {
+                @Override
+                public void onResponse(Call<AddCart> call, Response<AddCart> response) {
+                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
 
-                        AddCart addCartResponse = response.body();
+                    /*AddCart addCartResponse = response.body();
 
-                        /*long id1 = addCartResponse.getCustomerId();
-                        long id2 = addCartResponse.getProductId();
+                    long id1 = addCartResponse.getCustomerId();
+                    long id2 = addCartResponse.getProductId();
 
-                        Log.d("addCartResponse", String.valueOf(id1));
-                        Log.d("addCartResponse", String.valueOf(id2));*/
+                    Log.d("addCartResponse", String.valueOf(id1));
+                    Log.d("addCartResponse", String.valueOf(id2));*/
 
-                    }
+                }
 
-                    @Override
-                    public void onFailure(Call<AddCart> call, Throwable t) {
-                        Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                @Override
+                public void onFailure(Call<AddCart> call, Throwable t) {
+                    Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                /*Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
-                startActivity(cartIntent);*/
-            }
+            Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
+            startActivity(cartIntent);
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);

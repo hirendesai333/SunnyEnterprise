@@ -38,7 +38,7 @@ public interface ApiCallInterface {
             @Query("limit") int limit
     );
 
-    @GET("customer/login")
+    @GET("customer/Login")
     Call<Login> getLoginDetails(
             @Query("mobile") String mobile,
             @Query("password") String password

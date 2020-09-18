@@ -2,14 +2,21 @@ package com.example.sunnyenterprise.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sunnyenterprise.R;
@@ -24,9 +31,12 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     ApiCallInterface api;
-    Item loginDetails;
+    Login loginDetails;
 
     EditText etMob, etPass;
+    Dialog myDialog;
+
+    Boolean Islogin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,30 +55,33 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
-                loginDetails = response.body().getItem();
+                loginDetails = response.body();
 
-                final String responseMob = loginDetails.getMobile();
-                final String responsePass = loginDetails.getPassword();
+                final String responseMob = loginDetails.getItem().getMobile();
+                final String responsePass = loginDetails.getItem().getPassword();
 
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String mobileNum = etMob.getText().toString();
-                        final String password = etPass.getText().toString();
+                button.setOnClickListener(view -> {
+                    myDialog = new Dialog(getApplicationContext());
 
-                        if (mobileNum.isEmpty() || password.isEmpty()){
-                            Toast.makeText(LoginActivity.this, "fill the details!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            if (responseMob.equals(mobileNum) && responsePass.equals(password)){
-                                Toast.makeText(LoginActivity.this, "matched!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                startActivity(intent);
-                            }else {
-                                Toast.makeText(LoginActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
-                            }
+                    final String mobileNum = etMob.getText().toString();
+                    final String password = etPass.getText().toString();
+
+                    if (mobileNum.isEmpty() || password.isEmpty()) {
+                        Toast.makeText(LoginActivity.this, "fill the details!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (responseMob.equals(mobileNum) && responsePass.equals(password)) {
+                            Toast.makeText(LoginActivity.this, "matched!", Toast.LENGTH_SHORT).show();
+
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                            prefs.edit().putBoolean("Islogin", Islogin).commit();
+
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
                         }
-
                     }
+
                 });
 
             }
@@ -78,6 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    public void onBackPressed(){
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
 
     }
 

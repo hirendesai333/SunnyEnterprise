@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiService {
 
-    public static final String API_BASE_URL = "https://avanshield.com/sunnyapi/api/";
+    public static final String API_BASE_URL = "http://sunnyapi.rushkar.com/api/";
 
     private static OkHttpClient httpClient = new OkHttpClient.Builder()
             .connectTimeout(100, TimeUnit.SECONDS)
