@@ -42,14 +42,11 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
                 load(categoryList.get(position).getImageURL())
                 .into(holder.gridIcon);
 
-        holder.catalogGridview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ProductActivity.class);
-                intent.putExtra("titleCatalog", String.valueOf(holder.title.getText()));
-                intent.putExtra("cat_id", String.valueOf(categoryList.get(position).getId()));
-                view.getContext().startActivity(intent);
-            }
+        holder.catalogGridview.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ProductActivity.class);
+            intent.putExtra("titleCatalog", String.valueOf(holder.title.getText()));
+            intent.putExtra("cat_id", String.valueOf(categoryList.get(position).getId()));
+            view.getContext().startActivity(intent);
         });
     }
 

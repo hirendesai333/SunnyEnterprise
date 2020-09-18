@@ -27,10 +27,7 @@
 
         <activity
             android:name=".activities.ProductDetailsActivity"
-            android:theme="@style/NoTitleTheme">
-
-        </activity>
-
+            android:theme="@style/NoTitleTheme" />
         <activity
             android:name=".activities.ProductActivity"
             android:label="Products"

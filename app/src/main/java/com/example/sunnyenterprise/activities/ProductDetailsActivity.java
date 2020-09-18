@@ -2,8 +2,6 @@ package com.example.sunnyenterprise.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +41,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     Double singleProduct;
     RecyclerView sizeList, colorList;
 
-    //adapters
     ProductSizeAdapter productSizeAdapter;
     ProductColorAdapter productColorAdapter;
 
@@ -85,19 +82,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         textView = findViewById(R.id.textViewproductDetails);
         textView.setText(title);
 
-        //for auto imageslider
-//        sliderLayout = findViewById(R.id.productImageSlider);
-//        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-//        sliderLayout.setScrollTimeInSec(5);
-
-//        setSliderViews();
+        long ProductId = Long.parseLong(i.getStringExtra("product_id"));
+        long CustomerId = 1;
+        long sizeId = 1;
+        long quantity = 100;
 
         addtocartButton = findViewById(R.id.addTocartBtn);
         addtocartButton.setOnClickListener(view -> {
-            long ProductId = 182;
-            long CustomerId = 1;
-            long sizeId = 1;
-            long quantity = 100;
 
             List<SizeQuantity> sizeQuantity = Collections.singletonList(new SizeQuantity(sizeId, quantity));
             AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantity);
@@ -107,14 +98,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                 @Override
                 public void onResponse(Call<AddCart> call, Response<AddCart> response) {
                     Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-
-                    /*AddCart addCartResponse = response.body();
-
-                    long id1 = addCartResponse.getCustomerId();
-                    long id2 = addCartResponse.getProductId();
-
-                    Log.d("addCartResponse", String.valueOf(id1));
-                    Log.d("addCartResponse", String.valueOf(id2));*/
+                    Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
+                    startActivity(cartIntent);
 
                 }
 
@@ -124,17 +109,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                 }
             });
 
-            Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
-            startActivity(cartIntent);
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        imageView.setOnClickListener(view -> onBackPressed());
+
+        //for auto imageslider
+//        sliderLayout = findViewById(R.id.productImageSlider);
+//        sliderLayout.setIndicatorAnimation(SliderLayout.Animations.SLIDE); //set indicator animation by using SliderLayout.Animations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+//        sliderLayout.setScrollTimeInSec(5);
+
+//        setSliderViews();
     }
 
     @Override
@@ -165,12 +150,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         call.enqueue(new Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                String productName = response.body().getSingleProduct().getName();
+                tvStyle.setText(productName);
+
                 singleProduct = response.body().getSingleProduct().getPrice();
                 double price = singleProduct;
-                tvPrice.setText("Mrp: " + price);
+                tvPrice.setText("" + price);
 
-                String productName = response.body().getSingleProduct().getName();
-                tvStyle.setText("Style: " + productName);
+                cList = response.body().getSingleProduct().getColors();
+                productColorAdapter.setData(cList, response.body().getSingleProduct());
+                colorList.setAdapter(productColorAdapter);
 
                 pList = response.body().getSingleProduct().getSizes();
                 productSizeAdapter.setData(pList);
@@ -181,9 +170,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                     Picasso.get().load(imageurl).into(imageViewProduct);
                 }
 
-                cList = response.body().getSingleProduct().getColors();
-                productColorAdapter.setData(cList, response.body().getSingleProduct());
-                colorList.setAdapter(productColorAdapter);
             }
 
             @Override

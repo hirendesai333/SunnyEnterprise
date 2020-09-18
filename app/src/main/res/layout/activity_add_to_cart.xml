@@ -43,8 +43,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
+        android:fontFamily="@font/lato_bold"
         android:text="My Cart"
         android:textColor="#dedede"
         android:textSize="22sp"
@@ -58,6 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_regular"
         android:text="Total items"
         android:textColor="#dedede"
         android:textSize="16sp"
@@ -80,9 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:text="Total: \nPrice"
+            android:fontFamily="@font/lato_bold"
+            android:text="Total: Price"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -94,8 +96,8 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_btn"
             android:text="Checkout"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/white"/>
 
 
     </LinearLayout>

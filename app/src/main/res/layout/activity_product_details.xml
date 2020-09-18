@@ -68,24 +68,52 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/tvStyle"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_regular"
-                    android:text="Style: "
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textMrp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="Style: "
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginLeft="8dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/lato_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/lato_regular"
-                    android:text="Mrp :"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="Mrp :"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textMrp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="@font/lato_regular"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

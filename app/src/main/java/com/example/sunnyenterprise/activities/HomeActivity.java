@@ -162,7 +162,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void getCompanies() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Content Loader");
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");
