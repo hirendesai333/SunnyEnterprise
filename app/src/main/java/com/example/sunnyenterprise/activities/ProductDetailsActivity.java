@@ -25,6 +25,7 @@ import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.google.gson.Gson;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
@@ -38,6 +39,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
+
+    private String TAG = ProductDetailsActivity.class.getSimpleName();
     SliderLayout sliderLayout;
     TextView textView, tvPrice, tvStyle;
     Button addtocartButton;
@@ -50,7 +53,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     List<Size> pList;
     List<Color> cList;
-    List<SizeQuantity> sizeQuantity;
+    ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
 
     String imageurl;
     ImageView imageViewProduct;
@@ -93,34 +96,35 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         int sizeId = 1;
         int quantity = 50;
 
-//        sizeQuantity = (List<SizeQuantity>) new SizeQuantity(sizeId, quantity);
-        AddCart addCart = new AddCart(ProductId, CustomerId);
+        SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
+        sizeQuantityList.add(sizeQuantity);
+
+        AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
+
+        Log.d(TAG, "onCreate: " + new Gson().toJson(addCart));
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        addtocartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<AddCart> cartCall = api.postData(addCart);
-                cartCall.enqueue(new Callback<AddCart>() {
-                    @Override
-                    public void onResponse(Call<AddCart> call, Response<AddCart> response) {
-                        Log.d("ProductId", String.valueOf(response.body().getProductId()));
-                        Log.d("CustomerId", String.valueOf(response.body().getCustomerId()));
+        addtocartButton.setOnClickListener(view -> {
+            Call<AddCart> cartCall = api.postData(addCart);
+            cartCall.enqueue(new Callback<AddCart>() {
+                @Override
+                public void onResponse(Call<AddCart> call, Response<AddCart> response) {
+                    Log.d("ProductId", String.valueOf(response.body().getProductId()));
+                    Log.d("CustomerId", String.valueOf(response.body().getCustomerId()));
 //                        Log.d("ProductId", String.valueOf(response.body().getProductId()));
 
-                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                        Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
-                        startActivity(cartIntent);
+                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Intent cartIntent = new Intent(getApplicationContext(), AddToCartActivity.class);
+                    startActivity(cartIntent);
 
-                    }
+                }
 
-                    @Override
-                    public void onFailure(Call<AddCart> call, Throwable t) {
-                        Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Call<AddCart> call, Throwable t) {
+                    Toast.makeText(ProductDetailsActivity.this, "onFailure" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);

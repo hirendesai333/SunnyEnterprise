@@ -33,4 +33,11 @@ public class SizeQuantity {
         this.quantity = quantity;
     }
 
+    @Override
+    public String toString() {
+        return "SizeQuantity{" +
+                "sizeId=" + sizeId +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
