@@ -33,30 +33,30 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/toolbarProductDetails">
 
-       <androidx.cardview.widget.CardView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           app:cardCornerRadius="10dp"
-           android:layout_margin="10dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp">
 
-           <ImageView
-               android:id="@+id/imageProduct"
-               android:layout_width="match_parent"
-               android:layout_height="200dp"
-               android:layout_alignParentTop="true"
-               android:layout_margin="10dp"
-               android:layout_marginStart="10dp"
-               android:layout_marginEnd="10dp"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/toolbarProductDetails" />
+            <ImageView
+                android:id="@+id/imageProduct"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarProductDetails" />
 
-       </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#D3D3D3"/>
+            android:background="#D3D3D3" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -78,23 +78,24 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato_regular"
                         android:text="Style: "
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tvStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:layout_marginLeft="8dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/lato_regular"/>
+                        android:fontFamily="@font/lato_bold"
+                        android:text=""
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -102,16 +103,17 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato_regular"
                         android:text="Mrp :"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textMrp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
                         android:layout_marginLeft="8dp"
-                        android:fontFamily="@font/lato_regular"/>
+                        android:fontFamily="@font/lato_bold"
+                        android:text=""
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 
@@ -180,9 +182,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/lato_regular"
             android:gravity="center"
             android:text="Total: 0 pcs"
-            android:fontFamily="@font/lato_regular"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -193,8 +195,8 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:gravity="center"
             android:fontFamily="@font/lato_regular"
+            android:gravity="center"
             android:text="Add to cart"
             android:textColor="@color/white"
             android:textSize="14sp" />

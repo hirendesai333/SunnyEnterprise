@@ -6,29 +6,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterViewFlipper;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sunnyenterprise.adapters.CompanyAdapter;
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.adapters.FlipperAdapter;
+import com.example.sunnyenterprise.adapters.SliderAdapterExample;
 import com.example.sunnyenterprise.model.bannerModel.Banner;
 import com.example.sunnyenterprise.model.companyModel.Company;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.google.android.material.navigation.NavigationView;
-import com.smarteist.autoimageslider.SliderLayout;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView dataList;
     CompanyAdapter companyAdapter;
 
-    SliderLayout sliderLayout;
+//    SliderLayout sliderLayout;
     ImageView mButton;
 
     ImageView notifyImage, imageViewCt;
@@ -53,8 +53,6 @@ public class HomeActivity extends AppCompatActivity {
     List<Company> companyList;
 
     ApiCallInterface api;
-
-    private AdapterViewFlipper adapterViewFlipper;
 
     ProgressDialog progressDialog;
 
@@ -65,23 +63,19 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        SliderView sliderView = findViewById(R.id.imageSlider);
+
         notifyImage = findViewById(R.id.imageViewNotificatino);
-        notifyImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        notifyImage.setOnClickListener(view -> {
 //                Toast.makeText(HomeActivity.this, "clicked! ", Toast.LENGTH_SHORT).show();
-                Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
-                startActivity(notificationIntent);
-            }
+            Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
+            startActivity(notificationIntent);
         });
 
         imageViewCt = findViewById(R.id.imageViewCart);
-        imageViewCt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cartIntent = new Intent(HomeActivity.this, AddToCartActivity.class);
-                startActivity(cartIntent);
-            }
+        imageViewCt.setOnClickListener(view -> {
+            Intent cartIntent = new Intent(HomeActivity.this, AddToCartActivity.class);
+            startActivity(cartIntent);
         });
 
 
@@ -121,12 +115,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mButton = findViewById(R.id.imageViewOpenMenu);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        mButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         dataList = findViewById(R.id.dataList);
 
@@ -137,20 +126,24 @@ public class HomeActivity extends AppCompatActivity {
         api = ApiService.createService(ApiCallInterface.class);
 
         getCompanies();
-
-        adapterViewFlipper =  findViewById(R.id.adapterViewFlipper);
-
+        
         Call<List<Banner>> call = api.getBanners();
 
         call.enqueue(new Callback<List<Banner>>() {
             @Override
             public void onResponse(Call<List<Banner>> call, Response<List<Banner>> response) {
                 List<Banner> banners = response.body();
-                FlipperAdapter adapter = new FlipperAdapter(getApplicationContext(), banners);
 
-                adapterViewFlipper.setAdapter(adapter);
-                adapterViewFlipper.setFlipInterval(3000);
-                adapterViewFlipper.startFlipping();
+                SliderAdapterExample adapter = new SliderAdapterExample(HomeActivity.this, banners);
+
+                sliderView.setSliderAdapter(adapter);
+                sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                sliderView.setIndicatorSelectedColor(Color.WHITE);
+                sliderView.setIndicatorUnselectedColor(Color.GRAY);
+                sliderView.setScrollTimeInSec(3);
+                sliderView.startAutoCycle();
             }
 
             @Override

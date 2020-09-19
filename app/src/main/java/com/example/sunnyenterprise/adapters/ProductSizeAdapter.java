@@ -1,26 +1,42 @@
 package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
+import com.example.sunnyenterprise.activities.LoginActivity;
+import com.example.sunnyenterprise.activities.ProductDetailsActivity;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.OnSizeClickInterface;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.ViewHolder> {
     List<Size> pList;
     LayoutInflater inflater;
 
-    public ProductSizeAdapter(Context ctx, List<Size> pList) {
+    private OnSizeClickInterface onSizeClickInterface;
+
+    public ProductSizeAdapter(Context ctx, List<Size> pList,  OnSizeClickInterface onSizeClickInterface) {
         this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
+        this.onSizeClickInterface = onSizeClickInterface;
     }
 
     @NonNull
@@ -33,6 +49,13 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(pList.get(position).getCode());
+
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSizeClickInterface.onClickCheckbox(pList.get(position).getId());
+            }
+        });
     }
 
     @Override
@@ -47,10 +70,14 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkBox;
+        EditText editText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.checkbox);
+            editText = itemView.findViewById(R.id.etQty);
         }
     }
+
+
 }

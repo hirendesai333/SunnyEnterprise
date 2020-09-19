@@ -1,78 +1,85 @@
-
 package com.example.sunnyenterprise.model.productDetailModel;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class Size {
 
-    @SerializedName("Code")
-    private String mCode;
     @SerializedName("Id")
-    private Long mId;
-    @SerializedName("IsAvailable")
-    private Boolean mIsAvailable;
-    @SerializedName("IsFilter")
-    private Boolean mIsFilter;
+    @Expose
+    private Integer id;
     @SerializedName("Name")
-    private String mName;
+    @Expose
+    private String name;
+    @SerializedName("Code")
+    @Expose
+    private String code;
     @SerializedName("ProductMainId")
-    private Long mProductMainId;
+    @Expose
+    private Integer productMainId;
     @SerializedName("Slug")
-    private Object mSlug;
+    @Expose
+    private Object slug;
+    @SerializedName("IsAvailable")
+    @Expose
+    private Boolean isAvailable;
+    @SerializedName("IsFilter")
+    @Expose
+    private Boolean isFilter;
 
-    public String getCode() {
-        return mCode;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        mCode = code;
-    }
-
-    public Long getId() {
-        return mId;
-    }
-
-    public void setId(Long id) {
-        mId = id;
-    }
-
-    public Boolean getIsAvailable() {
-        return mIsAvailable;
-    }
-
-    public void setIsAvailable(Boolean isAvailable) {
-        mIsAvailable = isAvailable;
-    }
-
-    public Boolean getIsFilter() {
-        return mIsFilter;
-    }
-
-    public void setIsFilter(Boolean isFilter) {
-        mIsFilter = isFilter;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
-    public Long getProductMainId() {
-        return mProductMainId;
+    public String getCode() {
+        return code;
     }
 
-    public void setProductMainId(Long productMainId) {
-        mProductMainId = productMainId;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Integer getProductMainId() {
+        return productMainId;
+    }
+
+    public void setProductMainId(Integer productMainId) {
+        this.productMainId = productMainId;
     }
 
     public Object getSlug() {
-        return mSlug;
+        return slug;
     }
 
     public void setSlug(Object slug) {
-        mSlug = slug;
+        this.slug = slug;
     }
 
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public Boolean getIsFilter() {
+        return isFilter;
+    }
+
+    public void setIsFilter(Boolean isFilter) {
+        this.isFilter = isFilter;
+    }
 }

@@ -18,7 +18,7 @@ public class Company {
     private String mobile;
     @SerializedName("AvatarURL")
     @Expose
-    private Object avatarURL;
+    private String avatarURL;
     @SerializedName("CreatedBy")
     @Expose
     private Integer createdBy;
@@ -76,11 +76,11 @@ public class Company {
         this.mobile = mobile;
     }
 
-    public Object getAvatarURL() {
+    public String getAvatarURL() {
         return avatarURL;
     }
 
-    public void setAvatarURL(Object avatarURL) {
+    public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
     }
 

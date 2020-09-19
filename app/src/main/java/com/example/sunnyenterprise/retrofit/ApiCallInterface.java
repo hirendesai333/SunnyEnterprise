@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.retrofit;
 
 import com.example.sunnyenterprise.model.addCartModel.AddCart;
 import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
+import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
 import com.example.sunnyenterprise.model.bannerModel.Banner;
 import com.example.sunnyenterprise.model.cartListModel.CartList;
 import com.example.sunnyenterprise.model.categoryModel.Category;
@@ -48,7 +49,7 @@ public interface ApiCallInterface {
     Call<ProductDetails> getProductDetail(@Path("slug") String slug);
 
     @POST("cart/AddCart")
-    Call<AddCart> postData(@Body AddCart addCart);
+    Call<AddToCart> postData(@Body AddCart addCart);
 
     @GET("cart/Cart/{customerId}")
     Call<List<CartList>> getCartList(@Path("customerId") int customerId);

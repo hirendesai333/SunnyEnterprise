@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.activities.CatalogActivity;
 import com.example.sunnyenterprise.model.companyModel.Company;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHolder> {
-    /*List<String> titles;
-    List<Integer> images;*/
     Context context;
     List<Company> companyList;
 
@@ -40,14 +39,15 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.title.setText(companyList.get(position).getName());
 
-        holder.gridView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CatalogActivity.class);
-                intent.putExtra("title", String.valueOf(holder.title.getText()));
-                intent.putExtra("companyid",String.valueOf(companyList.get(position).getId()));
-                view.getContext().startActivity(intent);
-            }
+        Picasso.get().
+                load(companyList.get(position).getAvatarURL())
+                .into(holder.gridIcon);
+
+        holder.gridView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CatalogActivity.class);
+            intent.putExtra("title", String.valueOf(holder.title.getText()));
+            intent.putExtra("companyid",String.valueOf(companyList.get(position).getId()));
+            view.getContext().startActivity(intent);
         });
     }
 
@@ -69,7 +69,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textView2);
-            gridIcon = itemView.findViewById(R.id.imageView2);
+            gridIcon = itemView.findViewById(R.id.comp_img);
             gridView = itemView.findViewById(R.id.compantGrid);
 
         }

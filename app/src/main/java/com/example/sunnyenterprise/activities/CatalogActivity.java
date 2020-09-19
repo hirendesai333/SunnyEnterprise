@@ -88,7 +88,6 @@ public class CatalogActivity extends AppCompatActivity {
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 progressDialog.cancel();
                 categoryList = response.body();
-                int id = categoryList.get(0).getId();
                 catalogAdapter.setData(categoryList);
                 dataList.setAdapter(catalogAdapter);
 
