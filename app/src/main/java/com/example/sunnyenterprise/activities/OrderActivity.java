@@ -2,75 +2,94 @@ package com.example.sunnyenterprise.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.OrderAdapter;
+import com.example.sunnyenterprise.model.ordersModel.Orders;
+import com.example.sunnyenterprise.model.ordersModel.Value;
+import com.example.sunnyenterprise.retrofit.ApiCallInterface;
+import com.example.sunnyenterprise.retrofit.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class OrderActivity extends AppCompatActivity {
+    private String TAG = OrderActivity.class.getSimpleName();
 
     RecyclerView productList;
-    List<String> titles, colors;
-    List<Integer> images;
     OrderAdapter orderAdapter;
     ImageView imageViewbackCart;
+    List<Value> ordersList;
 
-    ProgressDialog progressDialog;
+    ApiCallInterface api;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgress(10);
-        progressDialog.setMax(100);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
         productList = findViewById(R.id.orderRecyclerView);
-        titles = new ArrayList<>();
-        colors = new ArrayList<>();
-        images = new ArrayList<>();
+        productList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        productList.setLayoutManager(layoutManager);
 
-        titles.add("First product");
-        titles.add("Second product");
-        titles.add("Third product");
-        titles.add("Fourth product");
-        titles.add("Fifth product");
-        titles.add("Sixth product");
+        orderAdapter = new OrderAdapter(ordersList, this);
 
-        colors.add("RED");
-        colors.add("BLUE");
-        colors.add("GREEN");
-        colors.add("YELLO");
-        colors.add("BLACK");
-        colors.add("DARKRED");
 
-        images.add(R.drawable.product);
-        images.add(R.drawable.companytwo);
-        images.add(R.drawable.product);
-        images.add(R.drawable.catalog);
-        images.add(R.drawable.product);
-        images.add(R.drawable.companytwo);
-        images.add(R.drawable.product);
+        api = ApiService.createService(ApiCallInterface.class);
 
-        orderAdapter = new OrderAdapter(titles, colors, images, this);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
-        productList.setLayoutManager(gridLayoutManager);
-        productList.setAdapter(orderAdapter);
-        progressDialog.cancel();
+        getOrdersByCustomerId();
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromOrder);
         imageViewbackCart.setOnClickListener(view -> onBackPressed());
+    }
+
+    private void getOrdersByCustomerId() {
+        /*Call<List<Orders>> ordersCall = api.getOrdersByCustomerId();
+        ordersCall.enqueue(new Callback<List<Orders>>() {
+            @Override
+            public void onResponse(Call<List<Orders>> call, Response<List<Orders>> response) {
+                Log.d(TAG, "response code" + response.code());
+                ordersList = response.body();
+                orderAdapter.setData(ordersList);
+                productList.setAdapter(orderAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Orders>> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        });*/
+
+        Call<Orders> ordersCall = api.getOrdersByCustomerId();
+        ordersCall.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                Log.d(TAG, "response code" + response.code());
+                ordersList = response.body().getValues();
+                orderAdapter.setData(ordersList);
+                productList.setAdapter(orderAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+
+            }
+        });
     }
 }

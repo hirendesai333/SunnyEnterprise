@@ -11,18 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
+import com.example.sunnyenterprise.model.cartListModel.CartList;
+import com.example.sunnyenterprise.model.ordersModel.Orders;
+import com.example.sunnyenterprise.model.ordersModel.Value;
 
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    List<String> titles, colors;
-    List<Integer> images;
+    //    List<String> titles, colors;
+//    List<Integer> images;
+    List<Value> valueList;
+
     LayoutInflater inflater;
 
-    public OrderAdapter(List<String> titles, List<String> colors, List<Integer> images, Context mContext) {
-        this.titles = titles;
-        this.images = images;
-        this.colors = colors;
+    public OrderAdapter(List<Value> valueList, Context mContext) {
+        this.valueList = valueList;
         this.inflater = LayoutInflater.from(mContext);
     }
 
@@ -35,15 +38,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ctitle.setText(titles.get(position));
-        holder.ccolor.setText(colors.get(position));
-        holder.cgridIcon.setImageResource(images.get(position));
+        holder.ctitle.setText(valueList.get(position).getProductName());
 
     }
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return valueList.size();
+    }
+
+    public void setData(List<Value> valueList) {
+        this.valueList = valueList;
+        notifyDataSetChanged();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

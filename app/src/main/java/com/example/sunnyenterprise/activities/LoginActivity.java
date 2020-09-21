@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     ApiCallInterface api;
     Login loginDetails;
 
-    EditText etMob, etPass;
+    EditText etMob;
     Dialog myDialog;
 
     ProgressDialog progressDialog;
@@ -56,31 +56,28 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         etMob = findViewById(R.id.etMobile);
-        etPass = findViewById(R.id.etPassword);
         final Button button = findViewById(R.id.loginBtn);
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        Call<Login> call = api.getLoginDetails("9601258730", "1234");
+        Call<Login> call = api.getLoginDetails("9601258730");
         call.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
                 loginDetails = response.body();
 
                 final String responseMob = loginDetails.getItem().getMobile();
-                final String responsePass = loginDetails.getItem().getPassword();
 
                 button.setOnClickListener(view -> {
                     myDialog = new Dialog(getApplicationContext());
 
                     final String mobileNum = etMob.getText().toString();
-                    final String password = etPass.getText().toString();
 
-                    if (mobileNum.isEmpty() || password.isEmpty()) {
+                    if (mobileNum.isEmpty()) {
                         Toast.makeText(LoginActivity.this, "Fill the details", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        if (responseMob.equals(mobileNum) && responsePass.equals(password)) {
+                        if (responseMob.equals(mobileNum)) {
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                             prefs.edit().putBoolean("Islogin", Islogin).commit();
 

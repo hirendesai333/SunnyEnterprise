@@ -95,11 +95,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/rounded_btn"
-            android:text="Checkout"
             android:fontFamily="@font/lato_regular"
-            android:textColor="@color/white"/>
+            android:text="Checkout"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/clearCartBtn"
+        android:src="@drawable/ic_delete"
+        android:layout_margin="15dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

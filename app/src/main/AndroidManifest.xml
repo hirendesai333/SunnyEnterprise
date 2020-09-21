@@ -25,7 +25,7 @@
 
         <activity
             android:name=".activities.AddToCartActivity"
-            android:theme="@style/NoTitleTheme" />
+            android:theme="@style/NoTitleTheme"/>
 
         <activity
             android:name=".activities.ProductDetailsActivity"

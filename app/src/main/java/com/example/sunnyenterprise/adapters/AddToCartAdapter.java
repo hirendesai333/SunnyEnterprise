@@ -14,6 +14,7 @@ import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.cartListModel.CartList;
 import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.OnDeleteItemInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,11 +22,12 @@ import java.util.List;
 public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.ViewHolder> {
     LayoutInflater inflater;
     List<CartList> cartLists;
+    OnDeleteItemInterface onDeleteItemInterface;
 
-    public AddToCartAdapter(Context mContext, List<CartList> cartLists) {
+    public AddToCartAdapter(Context mContext, List<CartList> cartLists, OnDeleteItemInterface onDeleteItemInterface) {
         this.cartLists = cartLists;
         this.inflater = LayoutInflater.from(mContext);
-
+        this.onDeleteItemInterface = onDeleteItemInterface;
     }
 
     @NonNull
@@ -42,6 +44,11 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
         holder.ccolor.setText(cartLists.get(position).getColorName());
         holder.cQuantity.setText("Item: " + cartLists.get(position).getQuantity());
         holder.cSizeCode.setText(cartLists.get(position).getSizeCode());
+        holder.cDelete.setOnClickListener(view -> {
+            onDeleteItemInterface.deleteItemID(cartLists.get(position).getId());
+        });
+
+        holder.cCatId.setText(cartLists.get(position).getId().toString());//cart id
 
         Picasso.get()
                 .load(cartLists.get(position).getImageUrl())
@@ -62,16 +69,18 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle, ccolor, cQuantity, cSizeCode;
-        ImageView cgridIcon;
+        TextView ctitle, ccolor, cQuantity, cSizeCode, cCatId;
+        ImageView cgridIcon, cDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ctitle = itemView.findViewById(R.id.textViewAddToCart);
-            cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
             ccolor = itemView.findViewById(R.id.colorText);
             cQuantity = itemView.findViewById(R.id.tvQuantity);
             cSizeCode = itemView.findViewById(R.id.tvSizeCode);
+            cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
+            cDelete = itemView.findViewById(R.id.imageViewDelete);
+            cCatId = itemView.findViewById(R.id.catid);
 
         }
 

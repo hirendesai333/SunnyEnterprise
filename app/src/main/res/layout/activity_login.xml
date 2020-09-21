@@ -40,21 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/rounded_edittext"
-        android:fontFamily="@font/lato_regular"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/etMobile"
-        app:layout_constraintStart_toStartOf="@+id/etMobile"
-        app:layout_constraintTop_toBottomOf="@+id/etMobile" />
-
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
@@ -67,8 +52,8 @@
         android:text="Login"
         android:textColor="#f2f2f2"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
-        app:layout_constraintStart_toStartOf="@+id/etPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/etMobile"
+        app:layout_constraintStart_toStartOf="@+id/etMobile"
+        app:layout_constraintTop_toBottomOf="@+id/etMobile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

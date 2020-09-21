@@ -3,6 +3,8 @@ package com.example.sunnyenterprise.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,9 +37,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface, OnSizeClickInterface {
+public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
 
     private String TAG = ProductDetailsActivity.class.getSimpleName();
+
     TextView textView, tvPrice, tvStyle;
     Button addtocartButton;
     ApiCallInterface api;
@@ -60,6 +63,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     private static final String slug = "123";
 
+    public int sizeId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +86,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         imageViewProduct = findViewById(R.id.imageProduct);
         addtocartButton = findViewById(R.id.addTocartBtn);
 
-        productSizeAdapter = new ProductSizeAdapter(this, pList, ProductDetailsActivity.this);
         productColorAdapter = new ProductColorAdapter(this, cList, this);
 
         Intent i = getIntent();
@@ -91,35 +95,44 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         long ProductId = Long.parseLong(i.getStringExtra("product_id"));
         long CustomerId = 1;
-        int sizeId = 1;
-        int quantity = 201;
-
-        SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
-        sizeQuantityList.add(sizeQuantity);
-
-        Item item = new Item();
-        itemArrayList.add(item);
-
-        AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        addtocartButton.setOnClickListener(view -> {
-            Call<AddToCart> addCartCall = api.postData(addCart);
-            addCartCall.enqueue(new Callback<AddToCart>() {
-                @Override
-                public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
-                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "onResponse: " + new Gson().toJson(response.body()));
+        productSizeAdapter = new ProductSizeAdapter(this, pList, id -> {
+            /*for (int j=0; j<productSizeAdapter.getItemCount(); j++){
+                int qty = ProductSizeAdapter.pList.get(j).getId();
+                Log.d(TAG, "QTY"+qty);
+            }*/
 
-                    startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
-                }
+            sizeId = id;
+            int quantity = 20;
+            SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
+            sizeQuantityList.add(sizeQuantity);
+            Log.d(TAG, String.valueOf(sizeId));
 
-                @Override
-                public void onFailure(Call<AddToCart> call, Throwable t) {
-                    Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
 
-                }
+            addtocartButton.setOnClickListener(view -> {
+                Call<AddToCart> addCartCall = api.postData(addCart);
+                addCartCall.enqueue(new Callback<AddToCart>() {
+                    @Override
+                    public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        if (response.code() == 200) {
+
+                            startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
+                        } else {
+                            Toast.makeText(ProductDetailsActivity.this, "response code error!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddToCart> call, Throwable t) {
+                        Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
             });
         });
 
@@ -143,7 +156,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
             }
         });
     }
-
 
     @Override
     protected void onResume() {
@@ -195,8 +207,5 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     }
 
-    @Override
-    public void onClickCheckbox(int sizeId) {
-    }
 
 }

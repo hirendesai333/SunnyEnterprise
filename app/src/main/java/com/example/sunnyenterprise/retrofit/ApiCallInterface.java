@@ -8,6 +8,7 @@ import com.example.sunnyenterprise.model.cartListModel.CartList;
 import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.example.sunnyenterprise.model.companyModel.Company;
 import com.example.sunnyenterprise.model.loginModel.Login;
+import com.example.sunnyenterprise.model.ordersModel.Orders;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productModel.Product;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -41,8 +43,7 @@ public interface ApiCallInterface {
 
     @GET("customer/Login")
     Call<Login> getLoginDetails(
-            @Query("mobile") String mobile,
-            @Query("password") String password
+            @Query("mobile") String mobile
     );
 
     @GET("product/GetProductBySlug/{slug}")
@@ -53,5 +54,14 @@ public interface ApiCallInterface {
 
     @GET("cart/Cart/{customerId}")
     Call<List<CartList>> getCartList(@Path("customerId") int customerId);
+
+    @POST("cart/ClearCart?")
+    Call<CartList> deleteCartList(@Query("CustomerId") int CustomerId);
+
+    @GET("cart/CartRemoveItem/{cartId}")
+    Call<CartList> deleteCartItem(@Path(("cartId")) int cartId);
+
+    @GET("order/GetOrdersByCustomerId/1")
+    Call<Orders> getOrdersByCustomerId();
 
 }

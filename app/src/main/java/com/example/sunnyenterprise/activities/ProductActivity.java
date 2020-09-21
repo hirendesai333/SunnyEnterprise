@@ -82,7 +82,6 @@ public class ProductActivity extends AppCompatActivity {
             public void onResponse(Call<Product> call, Response<Product> response) {
                 progressDialog.cancel();
                 productsList = response.body().getValues();
-
                 productAdapter.setData(productsList);
                 rvProducts.setAdapter(productAdapter);
             }

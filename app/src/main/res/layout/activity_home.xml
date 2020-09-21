@@ -63,8 +63,8 @@
                 android:layout_marginStart="32dp"
                 android:fontFamily="@font/lato_bold"
                 android:text="Dashboard"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageViewOpenMenu"
                 app:layout_constraintStart_toEndOf="@+id/imageViewOpenMenu"
                 app:layout_constraintTop_toTopOf="@+id/imageViewOpenMenu" />
@@ -107,8 +107,6 @@
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
                 app:sliderIndicatorRadius="2dp"
-                app:sliderIndicatorSelectedColor="@color/colorPrimary"
-                app:sliderIndicatorUnselectedColor="@color/colorAccent"
                 app:sliderScrollTimeInSec="1"
                 app:sliderStartAutoCycle="true" />
 

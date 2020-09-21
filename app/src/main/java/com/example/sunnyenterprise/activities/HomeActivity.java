@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView dataList;
     CompanyAdapter companyAdapter;
 
-//    SliderLayout sliderLayout;
+    //    SliderLayout sliderLayout;
     ImageView mButton;
 
     ImageView notifyImage, imageViewCt;
@@ -126,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         api = ApiService.createService(ApiCallInterface.class);
 
         getCompanies();
-        
+
         Call<List<Banner>> call = api.getBanners();
 
         call.enqueue(new Callback<List<Banner>>() {
@@ -140,10 +140,11 @@ public class HomeActivity extends AppCompatActivity {
                 sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
                 sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                 sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-                sliderView.setIndicatorSelectedColor(Color.WHITE);
-                sliderView.setIndicatorUnselectedColor(Color.GRAY);
+                sliderView.setIndicatorSelectedColor(Color.parseColor("#E30425"));
+                sliderView.setIndicatorUnselectedColor(Color.parseColor("#5D1049"));
                 sliderView.setScrollTimeInSec(3);
                 sliderView.startAutoCycle();
+
             }
 
             @Override

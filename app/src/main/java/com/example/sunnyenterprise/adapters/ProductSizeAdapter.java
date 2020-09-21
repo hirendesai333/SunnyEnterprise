@@ -1,10 +1,9 @@
 package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,29 +13,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.activities.LoginActivity;
-import com.example.sunnyenterprise.activities.ProductDetailsActivity;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeClickInterface;
 
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.ViewHolder> {
-    List<Size> pList;
+    public static List<Size> pList;
     LayoutInflater inflater;
+    OnSizeClickInterface onSizeClickInterface;
 
-    private OnSizeClickInterface onSizeClickInterface;
-
-    public ProductSizeAdapter(Context ctx, List<Size> pList,  OnSizeClickInterface onSizeClickInterface) {
+    public ProductSizeAdapter(Context ctx, List<Size> pList, OnSizeClickInterface onSizeClickInterface) {
         this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
         this.onSizeClickInterface = onSizeClickInterface;
+
     }
 
     @NonNull
@@ -49,13 +43,16 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(pList.get(position).getCode());
-
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (holder.checkBox.isChecked()) {
                 onSizeClickInterface.onClickCheckbox(pList.get(position).getId());
+            } else {
+                //do nothing
+                Toast.makeText(inflater.getContext(), "unchecked!", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     @Override
@@ -76,6 +73,23 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
             super(itemView);
             checkBox = itemView.findViewById(R.id.checkbox);
             editText = itemView.findViewById(R.id.etQty);
+
+            /*editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    pList.get(getAdapterPosition()).setId(Integer.valueOf(editText.getText().toString()));
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });*/
         }
     }
 
