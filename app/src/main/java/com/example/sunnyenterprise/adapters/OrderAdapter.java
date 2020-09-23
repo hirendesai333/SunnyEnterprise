@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.activities.OrderDetailsActivity;
 import com.example.sunnyenterprise.model.ordersModel.Value;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,7 +38,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(valueList.get(position).getProductName());
-
+        holder.cTvQuantity.setText("  "+valueList.get(position).getQuantity());
+        holder.ccolor.setText("no data");
+        holder.cTvSize.setText("no data");
+        Picasso.get()
+                .load(valueList.get(position).getImageS3Url())
+                .into(holder.cgridIcon);
     }
 
     @Override
@@ -52,7 +58,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle, ccolor;
+        TextView ctitle, ccolor, cTvQuantity, cTvSize;
         ImageView cgridIcon;
         CardView constraintLayout;
 
@@ -61,6 +67,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             ctitle = itemView.findViewById(R.id.textViewAddToCart);
             cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
             ccolor = itemView.findViewById(R.id.colorText);
+            cTvQuantity = itemView.findViewById(R.id.tvQuantity);
+            cTvSize = itemView.findViewById(R.id.tvSize);
             constraintLayout = itemView.findViewById(R.id.parent_layout);
 
             itemView.setOnClickListener(view -> {

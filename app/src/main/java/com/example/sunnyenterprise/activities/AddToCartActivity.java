@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,11 +46,15 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     ImageView clearCartBtn;
     Button btnCheckout;
     TextView tvCartEmpty, tvCartItems;
+    int CustomerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_cart);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharePrefCustomerId", Context.MODE_PRIVATE);
+        CustomerId = sharedPreferences.getInt("customer_id", 0);
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromCart);
         imageViewbackCart.setOnClickListener(view -> onBackPressed());
@@ -93,7 +99,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
     private void getCartList() {
         showProgressDialog();
-        Call<List<CartList>> call = api.getCartList(1);
+        Call<List<CartList>> call = api.getCartList(CustomerId);
         call.enqueue(new Callback<List<CartList>>() {
             @Override
             public void onResponse(Call<List<CartList>> call, Response<List<CartList>> response) {
@@ -122,7 +128,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     }
 
     private void clearCartProducts() {
-        Call<Boolean> customerObj = api.deleteCartList(1);
+        Call<Boolean> customerObj = api.deleteCartList(CustomerId);
         customerObj.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -156,7 +162,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     }
 
     private void placeOrder() {
-        CustomerObj customerObj = new CustomerObj((long) 1);
+        CustomerObj customerObj = new CustomerObj((long) CustomerId);
         Call<Item> itemCall = api.placeOrder(customerObj);
         itemCall.enqueue(new Callback<Item>() {
             @Override

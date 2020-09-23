@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -61,11 +62,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        SharedPreferences sharedPreferencesCustomerID = getSharedPreferences("sharePrefCustomerId", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesCustomerID.edit();
+        editor.putInt("customer_id", 1);
+        editor.apply();
+
         SliderView sliderView = findViewById(R.id.imageSlider);
 
         notifyImage = findViewById(R.id.imageViewNotificatino);
         notifyImage.setOnClickListener(view -> {
-//                Toast.makeText(HomeActivity.this, "clicked! ", Toast.LENGTH_SHORT).show();
             Intent notificationIntent = new Intent(HomeActivity.this, NotificationActivity.class);
             startActivity(notificationIntent);
         });

@@ -26,7 +26,7 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        Toast.makeText(NotificationActivity.this, "Swipe to remove the notification", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(NotificationActivity.this, "Swipe to remove the notification", Toast.LENGTH_SHORT).show();
 
         notifyList = findViewById(R.id.notificationRecyclerview);
         titles = new ArrayList<>();

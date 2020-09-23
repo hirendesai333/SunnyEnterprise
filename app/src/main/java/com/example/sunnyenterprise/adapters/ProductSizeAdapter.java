@@ -22,7 +22,6 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public static List<Size> pList;
     LayoutInflater inflater;
     OnSizeQtyClick onSizeQtyClick;
-    ;
 
     public ProductSizeAdapter(
             Context ctx,
@@ -48,11 +47,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
                 holder.editText.setVisibility(View.VISIBLE);
                 onSizeQtyClick.onClickCheckbox(pList.get(position).getId());
             } else {
-                if (!holder.editText.getText().toString().trim().isEmpty()) {
-                    if (Integer.parseInt(holder.editText.getText().toString().trim()) >= 0) {
-                        onSizeQtyClick.deleteSelection(pList.get(position).getId());
-                    }
-                }
+                onSizeQtyClick.deleteSelection(pList.get(position).getId());
                 holder.editText.setVisibility(View.GONE);
                 holder.editText.getText().clear();
             }

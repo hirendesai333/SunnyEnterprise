@@ -25,10 +25,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ApiCallInterface api;
 
-    ImageView imageViewProduct;
+    ImageView imageViewProduct, imageViewBakcOrders;
     TextView tvProductName, tvOrderPrice, tvOrderQuantity;
     long iddetail;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         tvProductName = findViewById(R.id.productName);
         tvOrderQuantity = findViewById(R.id.orderQuantity);
         tvOrderPrice = findViewById(R.id.orderPrice);
+        imageViewBakcOrders = findViewById(R.id.backImageOrderDetails);
+        imageViewBakcOrders.setOnClickListener(view -> onBackPressed());
 
         api = ApiService.createService(ApiCallInterface.class);
         iddetail = getIntent().getLongExtra("title", 1);
@@ -46,12 +47,16 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void getOrderDetailsBtId() {
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
+    }
+
+    private void getOrderDetailsBtId() {
+        showProgressDialog();
 
         Call<OrderDetails> orderDetailsCall = api.getOrderDetailsById(iddetail);
         orderDetailsCall.enqueue(new Callback<OrderDetails>() {

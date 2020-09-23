@@ -1,6 +1,8 @@
 package com.example.sunnyenterprise.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderActivity extends AppCompatActivity  {
+public class OrderActivity extends AppCompatActivity {
     private String TAG = OrderActivity.class.getSimpleName();
 
     RecyclerView productList;
@@ -35,11 +37,15 @@ public class OrderActivity extends AppCompatActivity  {
     List<Value> ordersList;
     ProgressDialog progressDialog;
     ApiCallInterface api;
+    int CustomerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharePrefCustomerId", Context.MODE_PRIVATE);
+        CustomerId = sharedPreferences.getInt("customer_id", 0);
 
         productList = findViewById(R.id.orderRecyclerView);
         productList.setLayoutManager(new LinearLayoutManager(this));
@@ -54,14 +60,19 @@ public class OrderActivity extends AppCompatActivity  {
         imageViewbackCart.setOnClickListener(view -> onBackPressed());
     }
 
-    private void getOrdersByCustomerId() {
+
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
+    }
 
-        Call<Orders> ordersCall = api.getOrdersByCustomerId();
+    private void getOrdersByCustomerId() {
+        showProgressDialog();
+
+        Call<Orders> ordersCall = api.getOrdersByCustomerId(CustomerId);
         ordersCall.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {

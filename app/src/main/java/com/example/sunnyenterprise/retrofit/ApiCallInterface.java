@@ -11,7 +11,6 @@ import com.example.sunnyenterprise.model.companyModel.Company;
 import com.example.sunnyenterprise.model.loginModel.Login;
 import com.example.sunnyenterprise.model.ordersModel.Orders;
 import com.example.sunnyenterprise.model.placeOrderModel.Item;
-import com.example.sunnyenterprise.model.placeOrderModel.PlaceOrder;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productModel.Product;
 
@@ -63,8 +62,8 @@ public interface ApiCallInterface {
     @GET("cart/CartRemoveItem/{cartId}")
     Call<CartList> deleteCartItem(@Path(("cartId")) int cartId);
 
-    @GET("order/GetOrdersByCustomerId/1")
-    Call<Orders> getOrdersByCustomerId();
+    @GET("order/GetOrdersByCustomerId/{customerId}")
+    Call<Orders> getOrdersByCustomerId(@Path("customerId") int customerId);
 
     @POST("checkout/PlacedOrder")
     Call<Item> placeOrder(@Body CustomerObj customerObj);
