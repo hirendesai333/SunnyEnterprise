@@ -57,8 +57,8 @@ public interface ApiCallInterface {
     @GET("cart/Cart/{customerId}")
     Call<List<CartList>> getCartList(@Path("customerId") int customerId);
 
-    @POST("cart/ClearCart?")
-    Call<CartList> deleteCartList(@Query("CustomerId") int CustomerId);
+    @POST("cart/ClearCart")
+    Call<Boolean> deleteCartList(@Query("CustomerId") int CustomerId);
 
     @GET("cart/CartRemoveItem/{cartId}")
     Call<CartList> deleteCartItem(@Path(("cartId")) int cartId);

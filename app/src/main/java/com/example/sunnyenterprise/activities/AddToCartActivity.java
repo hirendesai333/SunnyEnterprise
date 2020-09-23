@@ -102,8 +102,10 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
                     tvCartEmpty.setVisibility(View.VISIBLE);
                     tvCartItems.setText("0 items");
                     addToCartAdapter.setData(cartLists);
+                    clearCartBtn.setVisibility(View.GONE);
                     progressDialog.cancel();
                 } else {
+                    clearCartBtn.setVisibility(View.VISIBLE);
                     addToCartAdapter.setData(cartLists);
                     productList.setAdapter(addToCartAdapter);
                     tvCartItems.setText(cartLists.size() + " Items");
@@ -120,18 +122,18 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     }
 
     private void clearCartProducts() {
-//        showProgressDialog();
-        Call<CartList> deleteCall = api.deleteCartList(1);
-        deleteCall.enqueue(new Callback<CartList>() {
+        Call<Boolean> customerObj = api.deleteCartList(1);
+        customerObj.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<CartList> call, Response<CartList> response) {
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Log.d(TAG, "delete cart products by cat id" + response.code());
-                getCartList();
+                onResume();
             }
 
             @Override
-            public void onFailure(Call<CartList> call, Throwable t) {
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
+
             }
         });
     }
@@ -160,7 +162,8 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
                 Log.d(TAG, "Placed Order " + response.code());
-
+                onResume();
+                Toast.makeText(AddToCartActivity.this, "Order has been placed!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -31,20 +31,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
         this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
         this.onSizeQtyClick = onSizeQtyClick;
-        ;
     }
-
-    /*public ProductSizeAdapter(
-            Context ctx,
-            List<Size> pList,
-            OnSizeClickInterface onSizeClickInterface,
-            OnQtyCilckInterface onQtyCilckInterface) {
-
-        this.pList = pList;
-        this.inflater = LayoutInflater.from(ctx);
-        this.onSizeClickInterface = onSizeClickInterface;
-        this.onQtyCilckInterface = onQtyCilckInterface;
-    }*/
 
     @NonNull
     @Override

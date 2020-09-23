@@ -44,12 +44,10 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView dataList;
     CompanyAdapter companyAdapter;
 
-    //    SliderLayout sliderLayout;
     ImageView mButton;
 
     ImageView notifyImage, imageViewCt;
 
-    List<Banner> bannerList;
     List<Company> companyList;
 
     ApiCallInterface api;
