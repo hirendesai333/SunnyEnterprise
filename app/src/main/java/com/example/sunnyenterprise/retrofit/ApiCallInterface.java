@@ -1,7 +1,8 @@
 package com.example.sunnyenterprise.retrofit;
 
+import com.example.sunnyenterprise.model.CustomerObj;
+import com.example.sunnyenterprise.model.orderDetailsModel.OrderDetails;
 import com.example.sunnyenterprise.model.addCartModel.AddCart;
-import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
 import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
 import com.example.sunnyenterprise.model.bannerModel.Banner;
 import com.example.sunnyenterprise.model.cartListModel.CartList;
@@ -9,6 +10,8 @@ import com.example.sunnyenterprise.model.categoryModel.Category;
 import com.example.sunnyenterprise.model.companyModel.Company;
 import com.example.sunnyenterprise.model.loginModel.Login;
 import com.example.sunnyenterprise.model.ordersModel.Orders;
+import com.example.sunnyenterprise.model.placeOrderModel.Item;
+import com.example.sunnyenterprise.model.placeOrderModel.PlaceOrder;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productModel.Product;
 
@@ -16,7 +19,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -63,5 +65,11 @@ public interface ApiCallInterface {
 
     @GET("order/GetOrdersByCustomerId/1")
     Call<Orders> getOrdersByCustomerId();
+
+    @POST("checkout/PlacedOrder")
+    Call<Item> placeOrder(@Body CustomerObj customerObj);
+
+    @GET("order/GetOrderDetailsById/{orderDetailId}")
+    Call<OrderDetails> getOrderDetailsById(@Path("orderDetailId") long orderDetailId);
 
 }

@@ -15,6 +15,7 @@ import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.OrderAdapter;
 import com.example.sunnyenterprise.model.ordersModel.Orders;
 import com.example.sunnyenterprise.model.ordersModel.Value;
+import com.example.sunnyenterprise.recyclerviewInterface.OnOrderItemClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 
@@ -25,16 +26,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderActivity extends AppCompatActivity {
+public class OrderActivity extends AppCompatActivity  {
     private String TAG = OrderActivity.class.getSimpleName();
 
     RecyclerView productList;
     OrderAdapter orderAdapter;
     ImageView imageViewbackCart;
     List<Value> ordersList;
-
+    ProgressDialog progressDialog;
     ApiCallInterface api;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,9 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         productList = findViewById(R.id.orderRecyclerView);
-        productList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        productList.setLayoutManager(layoutManager);
+        productList.setLayoutManager(new LinearLayoutManager(this));
 
         orderAdapter = new OrderAdapter(ordersList, this);
-
 
         api = ApiService.createService(ApiCallInterface.class);
 
@@ -58,21 +55,11 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void getOrdersByCustomerId() {
-        /*Call<List<Orders>> ordersCall = api.getOrdersByCustomerId();
-        ordersCall.enqueue(new Callback<List<Orders>>() {
-            @Override
-            public void onResponse(Call<List<Orders>> call, Response<List<Orders>> response) {
-                Log.d(TAG, "response code" + response.code());
-                ordersList = response.body();
-                orderAdapter.setData(ordersList);
-                productList.setAdapter(orderAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Orders>> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-            }
-        });*/
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgress(10);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
         Call<Orders> ordersCall = api.getOrdersByCustomerId();
         ordersCall.enqueue(new Callback<Orders>() {
@@ -82,6 +69,7 @@ public class OrderActivity extends AppCompatActivity {
                 ordersList = response.body().getValues();
                 orderAdapter.setData(ordersList);
                 productList.setAdapter(orderAdapter);
+                progressDialog.cancel();
 
             }
 
@@ -92,4 +80,5 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
     }
+
 }

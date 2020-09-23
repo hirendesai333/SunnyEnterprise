@@ -1,6 +1,7 @@
 package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,31 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
-import com.example.sunnyenterprise.model.cartListModel.CartList;
-import com.example.sunnyenterprise.model.ordersModel.Orders;
+import com.example.sunnyenterprise.activities.OrderDetailsActivity;
 import com.example.sunnyenterprise.model.ordersModel.Value;
 
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    //    List<String> titles, colors;
-//    List<Integer> images;
     List<Value> valueList;
-
-    LayoutInflater inflater;
+    Context context;
 
     public OrderAdapter(List<Value> valueList, Context mContext) {
         this.valueList = valueList;
-        this.inflater = LayoutInflater.from(mContext);
+        this.context = mContext;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.order_grid_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_grid_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -56,12 +54,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView ctitle, ccolor;
         ImageView cgridIcon;
+        CardView constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ctitle = itemView.findViewById(R.id.textViewAddToCart);
             cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
             ccolor = itemView.findViewById(R.id.colorText);
+            constraintLayout = itemView.findViewById(R.id.parent_layout);
+
+            itemView.setOnClickListener(view -> {
+                Intent i = new Intent(view.getContext(),OrderDetailsActivity.class);
+                i.putExtra("title",valueList.get(getAdapterPosition()).getId());
+                view.getContext().startActivity(i);
+            });
 
         }
     }

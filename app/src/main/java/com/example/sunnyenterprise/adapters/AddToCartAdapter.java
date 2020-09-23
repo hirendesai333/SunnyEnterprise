@@ -42,13 +42,11 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(cartLists.get(position).getName());
         holder.ccolor.setText(cartLists.get(position).getColorName());
-        holder.cQuantity.setText("Item: " + cartLists.get(position).getQuantity());
+        holder.cQuantity.setText(""+cartLists.get(position).getQuantity());
         holder.cSizeCode.setText(cartLists.get(position).getSizeCode());
         holder.cDelete.setOnClickListener(view -> {
             onDeleteItemInterface.deleteItemID(cartLists.get(position).getId());
         });
-
-        holder.cCatId.setText(cartLists.get(position).getId().toString());//cart id
 
         Picasso.get()
                 .load(cartLists.get(position).getImageUrl())
@@ -69,7 +67,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle, ccolor, cQuantity, cSizeCode, cCatId;
+        TextView ctitle, ccolor, cQuantity, cSizeCode;
         ImageView cgridIcon, cDelete;
 
         public ViewHolder(@NonNull View itemView) {
@@ -80,7 +78,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
             cSizeCode = itemView.findViewById(R.id.tvSizeCode);
             cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);
             cDelete = itemView.findViewById(R.id.imageViewDelete);
-            cCatId = itemView.findViewById(R.id.catid);
+
 
         }
 

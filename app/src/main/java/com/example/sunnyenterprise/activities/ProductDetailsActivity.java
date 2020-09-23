@@ -20,7 +20,6 @@ import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
 import com.example.sunnyenterprise.model.addCartModel.AddCart;
 import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
 import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
-import com.example.sunnyenterprise.model.addToCartModel.Item;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
@@ -54,7 +53,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     List<Color> cList;
 
     ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
-    ArrayList<Item> itemArrayList = new ArrayList<>();
 
     String imageurl;
     ImageView imageViewProduct;
@@ -98,14 +96,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        productSizeAdapter = new ProductSizeAdapter(this, pList, id -> {
-            /*for (int j=0; j<productSizeAdapter.getItemCount(); j++){
-                int qty = ProductSizeAdapter.pList.get(j).getId();
-                Log.d(TAG, "QTY"+qty);
-            }*/
-
+        productSizeAdapter = new ProductSizeAdapter(this, pList, (id, qty) -> {
             sizeId = id;
-            int quantity = 20;
+
+            Editable qtyTobeGot = qty;
+            Log.d(TAG, String.valueOf(qtyTobeGot));
+
+            int quantity = Integer.parseInt(String.valueOf(qtyTobeGot));
             SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
             sizeQuantityList.add(sizeQuantity);
             Log.d(TAG, String.valueOf(sizeId));
@@ -119,12 +116,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                     public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
                         Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                         if (response.code() == 200) {
-
+                            sizeQuantityList.clear();
                             startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
                         } else {
-                            Toast.makeText(ProductDetailsActivity.this, "response code error!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override

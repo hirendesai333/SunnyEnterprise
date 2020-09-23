@@ -166,11 +166,11 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Company>>() {
             @Override
             public void onResponse(Call<List<Company>> call, Response<List<Company>> response) {
-                progressDialog.cancel();
+
                 companyList = response.body();
                 companyAdapter.setData(companyList);
                 dataList.setAdapter(companyAdapter);
-
+                progressDialog.cancel();
             }
 
             @Override

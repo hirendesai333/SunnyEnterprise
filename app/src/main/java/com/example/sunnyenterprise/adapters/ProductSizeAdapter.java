@@ -44,15 +44,17 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(pList.get(position).getCode());
         holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (holder.checkBox.isChecked()) {
-                onSizeClickInterface.onClickCheckbox(pList.get(position).getId());
-            } else {
-                //do nothing
-                Toast.makeText(inflater.getContext(), "unchecked!", Toast.LENGTH_SHORT).show();
+            if (holder.editText.toString() == null) {
+                Toast.makeText(inflater.getContext(), "please enter qty first!", Toast.LENGTH_SHORT).show();
+            }else {
+                if (holder.checkBox.isChecked()) {
+                    onSizeClickInterface.onClickCheckbox(pList.get(position).getId(), holder.editText.getText());
+                } else {
+                    Toast.makeText(inflater.getContext(), "unchecked!", Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
-
-
     }
 
     @Override
@@ -74,22 +76,6 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
             checkBox = itemView.findViewById(R.id.checkbox);
             editText = itemView.findViewById(R.id.etQty);
 
-            /*editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    pList.get(getAdapterPosition()).setId(Integer.valueOf(editText.getText().toString()));
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });*/
         }
     }
 
