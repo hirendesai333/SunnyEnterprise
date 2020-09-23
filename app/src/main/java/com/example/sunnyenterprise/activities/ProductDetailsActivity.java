@@ -23,11 +23,11 @@ import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
-import com.example.sunnyenterprise.recyclerviewInterface.OnQtyCilckInterface;
-import com.example.sunnyenterprise.recyclerviewInterface.OnSizeClickInterface;
+import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface {
+public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface, OnSizeQtyClick {
 
     private String TAG = ProductDetailsActivity.class.getSimpleName();
 
@@ -62,8 +62,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     private static final String slug = "123";
 
-    private int sizeId;
-    int quantity;
+    private int sizeId = 0;
+    int quantity = 0;
+    boolean isQtyAdded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,38 +99,38 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        productSizeAdapter = new ProductSizeAdapter(this, pList, id -> {
-            sizeId = id;
-            Log.d(TAG, String.valueOf(sizeId));
-            quantity = 20;
-            SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
-            sizeQuantityList.add(sizeQuantity);
-        }, Qty -> {
-            Log.d(TAG, String.valueOf(Qty));
-        });
+        productSizeAdapter = new ProductSizeAdapter(this, pList, this);
 
         AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
 
         addtocartButton.setOnClickListener(view -> {
-            Call<AddToCart> addCartCall = api.postData(addCart);
-            addCartCall.enqueue(new Callback<AddToCart>() {
-                @Override
-                public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
-                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                    if (response.code() == 200) {
-                        sizeQuantityList.clear();
-                        startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
-                    } else {
-                        Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
-                    }
-                }
+            if (sizeQuantityList.size() > 0) {
+                if (isQtyAdded) {
+                    Call<AddToCart> addCartCall = api.postData(addCart);
+                    addCartCall.enqueue(new Callback<AddToCart>() {
+                        @Override
+                        public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+                            Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            if (response.code() == 200) {
+                                sizeQuantityList.clear();
+                                startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
+                            } else {
+                                Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-                @Override
-                public void onFailure(Call<AddToCart> call, Throwable t) {
-                    Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(Call<AddToCart> call, Throwable t) {
+                            Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Please enter Quality in all sizes", Toast.LENGTH_SHORT).show();
                 }
-            });
+            } else {
+                Toast.makeText(this, "Please add at least one size", Toast.LENGTH_SHORT).show();
+            }
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);
@@ -202,5 +203,47 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     }
 
+    @Override
+    public void onClickQty(Editable Qty, int id) {
+        if (!Qty.toString().trim().isEmpty()) {
+            sizeId = id;
+            quantity = Integer.parseInt(Qty.toString());
+            for (int i = 0; i < sizeQuantityList.size(); i++) {
+                if (sizeQuantityList.get(i).getSizeId() == id) {
+                    SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
+                    sizeQuantityList.set(i, sizeQuantity);
+                }
+            }
+        }
+        checkQtyOfAll();
+    }
 
+    @Override
+    public void onClickCheckbox(int id) {
+        sizeId = id;
+        SizeQuantity sizeQuantity = new SizeQuantity(sizeId, 0);
+        sizeQuantityList.add(sizeQuantity);
+        checkQtyOfAll();
+    }
+
+    @Override
+    public void deleteSelection(int id) {
+        for (int i = 0; i < sizeQuantityList.size(); i++) {
+            if (sizeQuantityList.get(i).getSizeId() == id) {
+                sizeQuantityList.remove(i);
+            }
+        }
+        checkQtyOfAll();
+    }
+
+    public void checkQtyOfAll() {
+        for (int i = 0; i < sizeQuantityList.size(); i++) {
+            if (sizeQuantityList.get(i).getQuantity() == 0) {
+                isQtyAdded = false;
+                break;
+            } else {
+                isQtyAdded = true;
+            }
+        }
+    }
 }
