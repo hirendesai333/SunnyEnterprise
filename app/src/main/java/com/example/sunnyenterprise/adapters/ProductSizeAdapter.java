@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.OnQtyCilckInterface;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeClickInterface;
 
 import java.util.List;
@@ -25,12 +26,18 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public static List<Size> pList;
     LayoutInflater inflater;
     OnSizeClickInterface onSizeClickInterface;
+    OnQtyCilckInterface onQtyCilckInterface;
 
-    public ProductSizeAdapter(Context ctx, List<Size> pList, OnSizeClickInterface onSizeClickInterface) {
+    public ProductSizeAdapter(
+            Context ctx,
+            List<Size> pList,
+            OnSizeClickInterface onSizeClickInterface,
+            OnQtyCilckInterface onQtyCilckInterface) {
+
         this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
         this.onSizeClickInterface = onSizeClickInterface;
-
+        this.onQtyCilckInterface = onQtyCilckInterface;
     }
 
     @NonNull
@@ -44,17 +51,25 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.checkBox.setText(pList.get(position).getCode());
         holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (holder.editText.toString() == null) {
-                Toast.makeText(inflater.getContext(), "please enter qty first!", Toast.LENGTH_SHORT).show();
-            }else {
-                if (holder.checkBox.isChecked()) {
-                    onSizeClickInterface.onClickCheckbox(pList.get(position).getId(), holder.editText.getText());
-                } else {
-                    Toast.makeText(inflater.getContext(), "unchecked!", Toast.LENGTH_SHORT).show();
-                }
+            onSizeClickInterface.onClickCheckbox(pList.get(position).getId());
+        });
+        holder.editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                onQtyCilckInterface.onClickQty(holder.editText.getText());
+            }
         });
+
     }
 
     @Override

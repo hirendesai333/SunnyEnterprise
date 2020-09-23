@@ -23,6 +23,7 @@ import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.OnQtyCilckInterface;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeClickInterface;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
@@ -61,7 +62,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     private static final String slug = "123";
 
-    public int sizeId;
+    private int sizeId;
+    int quantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,45 +98,42 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         api = ApiService.createService(ApiCallInterface.class);
 
-        productSizeAdapter = new ProductSizeAdapter(this, pList, (id, qty) -> {
+        productSizeAdapter = new ProductSizeAdapter(this, pList, id -> {
             sizeId = id;
-
-            Editable qtyTobeGot = qty;
-            Log.d(TAG, String.valueOf(qtyTobeGot));
-
-            int quantity = Integer.parseInt(String.valueOf(qtyTobeGot));
+            Log.d(TAG, String.valueOf(sizeId));
+            quantity = 20;
             SizeQuantity sizeQuantity = new SizeQuantity(sizeId, quantity);
             sizeQuantityList.add(sizeQuantity);
-            Log.d(TAG, String.valueOf(sizeId));
+        }, Qty -> {
+            Log.d(TAG, String.valueOf(Qty));
+        });
 
-            AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
+        AddCart addCart = new AddCart(ProductId, CustomerId, sizeQuantityList);
 
-            addtocartButton.setOnClickListener(view -> {
-                Call<AddToCart> addCartCall = api.postData(addCart);
-                addCartCall.enqueue(new Callback<AddToCart>() {
-                    @Override
-                    public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
-                        Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                        if (response.code() == 200) {
-                            sizeQuantityList.clear();
-                            startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
-                        } else {
-                            Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
-                        }
+        addtocartButton.setOnClickListener(view -> {
+            Call<AddToCart> addCartCall = api.postData(addCart);
+            addCartCall.enqueue(new Callback<AddToCart>() {
+                @Override
+                public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+                    Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    if (response.code() == 200) {
+                        sizeQuantityList.clear();
+                        startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
+                    } else {
+                        Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<AddToCart> call, Throwable t) {
-                        Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<AddToCart> call, Throwable t) {
+                    Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                }
             });
         });
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);
         imageView.setOnClickListener(view -> onBackPressed());
-
     }
 
     @Override
