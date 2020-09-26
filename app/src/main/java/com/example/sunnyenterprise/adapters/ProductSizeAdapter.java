@@ -52,6 +52,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
                 holder.editText.getText().clear();
             }
         });
+
         holder.editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

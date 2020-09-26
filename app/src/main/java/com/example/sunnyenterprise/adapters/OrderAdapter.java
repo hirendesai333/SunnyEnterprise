@@ -39,8 +39,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(valueList.get(position).getProductName());
         holder.cTvQuantity.setText("  "+valueList.get(position).getQuantity());
-        holder.ccolor.setText("no data");
-        holder.cTvSize.setText("no data");
+        holder.ccolor.setText(valueList.get(position).getColor());
+        holder.cTvSize.setText(valueList.get(position).getSize());
         Picasso.get()
                 .load(valueList.get(position).getImageS3Url())
                 .into(holder.cgridIcon);

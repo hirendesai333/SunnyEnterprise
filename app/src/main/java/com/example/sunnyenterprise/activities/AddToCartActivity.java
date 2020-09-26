@@ -8,11 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,12 +20,11 @@ import com.example.sunnyenterprise.adapters.AddToCartAdapter;
 import com.example.sunnyenterprise.model.CustomerObj;
 import com.example.sunnyenterprise.model.cartListModel.CartList;
 import com.example.sunnyenterprise.model.placeOrderModel.Item;
-import com.example.sunnyenterprise.model.placeOrderModel.PlaceOrder;
 import com.example.sunnyenterprise.recyclerviewInterface.OnDeleteItemInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,7 +41,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     ProgressDialog progressDialog;
     ImageView clearCartBtn;
     Button btnCheckout;
-    TextView tvCartEmpty, tvCartItems;
+    TextView tvCartEmpty, tvCartItems, tvGrandTotal;
     int CustomerId;
 
     @Override
@@ -61,6 +57,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
         tvCartEmpty = findViewById(R.id.tvCartEmpty);
         tvCartItems = findViewById(R.id.tvTotalItems);
+        tvGrandTotal = findViewById(R.id.tvGrandTotal);
 
         productList = findViewById(R.id.addTocartRecyclerView);
         productList.setHasFixedSize(true);
@@ -109,12 +106,14 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
                     tvCartItems.setText("0 items");
                     addToCartAdapter.setData(cartLists);
                     clearCartBtn.setVisibility(View.GONE);
+                    tvGrandTotal.setText("0");
                     progressDialog.cancel();
                 } else {
                     clearCartBtn.setVisibility(View.VISIBLE);
                     addToCartAdapter.setData(cartLists);
                     productList.setAdapter(addToCartAdapter);
                     tvCartItems.setText(cartLists.size() + " Items");
+                    tvGrandTotal.setText(""+cartLists.get(0).getGrandTotal());
                     progressDialog.cancel();
                 }
             }
@@ -132,13 +131,11 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
         customerObj.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Log.d(TAG, "delete cart products by cat id" + response.code());
                 onResume();
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
 
             }
         });
@@ -150,13 +147,11 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
         deleteCall.enqueue(new Callback<CartList>() {
             @Override
             public void onResponse(Call<CartList> call, Response<CartList> response) {
-                Log.d(TAG, "deleteItem by id" + response.code());
                 onResume();
             }
 
             @Override
             public void onFailure(Call<CartList> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
             }
         });
     }
@@ -167,14 +162,12 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
         itemCall.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
-                Log.d(TAG, "Placed Order " + response.code());
                 onResume();
                 Toast.makeText(AddToCartActivity.this, "Order has been placed!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Item> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
 
             }
         });

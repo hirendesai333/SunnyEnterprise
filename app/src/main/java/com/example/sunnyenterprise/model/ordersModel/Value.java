@@ -13,7 +13,7 @@ public class Value {
     @SerializedName("CanceledDateString")
     private String mCanceledDateString;
     @SerializedName("Color")
-    private Object mColor;
+    private String mColor;
     @SerializedName("ColorCode")
     private Object mColorCode;
     @SerializedName("ColorId")
@@ -135,7 +135,7 @@ public class Value {
     @SerializedName("ShippingCharge")
     private Double mShippingCharge;
     @SerializedName("Size")
-    private Object mSize;
+    private String mSize;
     @SerializedName("SizeId")
     private Long mSizeId;
     @SerializedName("Sku")
@@ -187,11 +187,11 @@ public class Value {
         mCanceledDateString = canceledDateString;
     }
 
-    public Object getColor() {
+    public String getColor() {
         return mColor;
     }
 
-    public void setColor(Object color) {
+    public void setColor(String color) {
         mColor = color;
     }
 
@@ -675,11 +675,11 @@ public class Value {
         mShippingCharge = shippingCharge;
     }
 
-    public Object getSize() {
+    public String getSize() {
         return mSize;
     }
 
-    public void setSize(Object size) {
+    public void setSize(String size) {
         mSize = size;
     }
 

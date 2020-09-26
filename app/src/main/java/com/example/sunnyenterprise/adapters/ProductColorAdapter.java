@@ -1,6 +1,7 @@
 package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,13 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (singleProduct.getSlug().equals(pList.get(position).getSlug())) {
             holder.radioButton.setChecked(true);
+            holder.radioButton.setButtonTintList(
+                    ColorStateList.valueOf(android.graphics.Color.parseColor("#"+pList.get(position).getCode()))
+            );
+
         } else {
             holder.radioButton.setChecked(false);
         }
-        holder.radioButton.setTextColor(android.graphics.Color.parseColor("#000000"));
         holder.textView.setText(pList.get(position).getName());
         holder.rootLayout.setOnClickListener(view -> recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug()));
         holder.radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
