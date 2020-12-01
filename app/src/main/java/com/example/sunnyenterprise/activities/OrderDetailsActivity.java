@@ -68,9 +68,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
                         .load(orderDetails.getImageS3Url())
                         .into(imageViewProduct);
 
-                tvProductName.setText("Name: " + orderDetails.getProductName());
-                tvOrderPrice.setText("Price: " + orderDetails.getPrice());
-                tvOrderQuantity.setText("Quantity: " + orderDetails.getQuantity());
+                tvProductName.setText("" + orderDetails.getProductName());
+                tvOrderPrice.setText("" + orderDetails.getPrice());
+                tvOrderQuantity.setText("" + orderDetails.getQuantity());
                 progressDialog.cancel();
 
             }

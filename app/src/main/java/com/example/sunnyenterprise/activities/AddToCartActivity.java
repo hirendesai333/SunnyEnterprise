@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     ApiCallInterface api;
     ProgressDialog progressDialog;
     ImageView clearCartBtn;
+    ImageView homeBtnFromCart;
     Button btnCheckout;
     TextView tvCartEmpty, tvCartItems, tvGrandTotal;
     int CustomerId;
@@ -54,6 +56,11 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromCart);
         imageViewbackCart.setOnClickListener(view -> onBackPressed());
+
+        homeBtnFromCart = findViewById(R.id.homeButtonfromCart);
+        homeBtnFromCart.setOnClickListener(view -> {
+            startActivity(new Intent(AddToCartActivity.this,HomeActivity.class));
+        });
 
         tvCartEmpty = findViewById(R.id.tvCartEmpty);
         tvCartItems = findViewById(R.id.tvTotalItems);
