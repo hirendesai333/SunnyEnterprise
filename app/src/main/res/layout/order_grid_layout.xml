@@ -42,7 +42,7 @@
                 android:layout_marginStart="16dp"
                 android:text="TextView"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageViewAddToCart"
                 app:layout_constraintTop_toTopOf="@+id/imageViewAddToCart" />
@@ -65,7 +65,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/lato_regular"
                 android:text="Color: "
-                android:textSize="12sp"
+                android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/imageViewAddToCart"
                 app:layout_constraintTop_toBottomOf="@+id/textViewAddToCart" />
 
@@ -76,7 +76,7 @@
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/lato_bold"
                 android:text="red"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/textView7" />
@@ -88,7 +88,7 @@
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/lato_regular"
                 android:text="|   Size:  "
-                android:textSize="12sp"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="@+id/colorText"
                 app:layout_constraintStart_toEndOf="@+id/colorText"
                 app:layout_constraintTop_toTopOf="@+id/colorText" />
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
                 android:text="28"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="@+id/textView8" />
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
                     android:text="Item: "
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tvQuantity"
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_bold"
                     android:text="20"
-                    android:textSize="13sp" />
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
