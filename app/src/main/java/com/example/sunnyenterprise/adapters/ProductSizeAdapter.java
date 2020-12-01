@@ -27,7 +27,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
             Context ctx,
             List<Size> pList,
             OnSizeQtyClick onSizeQtyClick) {
-        this.pList = pList;
+        ProductSizeAdapter.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
         this.onSizeQtyClick = onSizeQtyClick;
     }
@@ -36,7 +36,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.size_row_layout, parent, false);
-        return new ProductSizeAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -73,7 +73,6 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
                 onSizeQtyClick.onClickQty(holder.editText.getText(), pList.get(position).getId());
             }
         });
-
     }
 
     @Override
@@ -82,11 +81,11 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     }
 
     public void setData(List<Size> pList) {
-        this.pList = pList;
+        ProductSizeAdapter.pList = pList;
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkBox;
         EditText editText;
 

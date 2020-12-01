@@ -39,6 +39,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back" />
 
+    <ImageView
+        android:id="@+id/homeButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolBar"
+        app:srcCompat="@drawable/ic_baseline_home_24"
+        app:tint="@color/white" />
+
     <TextView
         android:id="@+id/catalogTitle"
         android:layout_width="wrap_content"

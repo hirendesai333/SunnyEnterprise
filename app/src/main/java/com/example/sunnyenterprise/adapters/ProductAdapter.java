@@ -45,7 +45,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             Intent intent = new Intent(view.getContext(), ProductDetailsActivity.class);
             intent.putExtra("productTitle", String.valueOf(holder.ptitle.getText()));
             intent.putExtra("product_id", String.valueOf(pList.get(position).getProductid()));
-            Log.d("product_id", "product_id: " + pList.get(position).getProductid());
+            intent.putExtra("slug", String.valueOf(pList.get(position).getSlug()));
+            Log.d("ids", "product_id: " + pList.get(position).getProductid());
+            Log.d("slugs", String.valueOf(pList.get(position).getSlug()));
+
             view.getContext().startActivity(intent);
 
         });

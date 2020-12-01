@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
             Intent intent = new Intent(view.getContext(), ProductActivity.class);
             intent.putExtra("titleCatalog", String.valueOf(holder.title.getText()));
             intent.putExtra("cat_id", String.valueOf(categoryList.get(position).getId()));
+            Log.d("ids", "catalog id: " + categoryList.get(position).getId());
+
             view.getContext().startActivity(intent);
         });
     }

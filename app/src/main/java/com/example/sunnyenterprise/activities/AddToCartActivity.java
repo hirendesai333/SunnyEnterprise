@@ -64,7 +64,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         productList.setLayoutManager(layoutManager);
 
-        addToCartAdapter = new AddToCartAdapter(this, cartLists, this::deleteItemID);
+        addToCartAdapter = new AddToCartAdapter(this, cartLists, this);
 
         api = ApiService.createService(ApiCallInterface.class);
 
@@ -113,7 +113,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
                     addToCartAdapter.setData(cartLists);
                     productList.setAdapter(addToCartAdapter);
                     tvCartItems.setText(cartLists.size() + " Items");
-                    tvGrandTotal.setText(""+cartLists.get(0).getGrandTotal());
+                    tvGrandTotal.setText("" + cartLists.get(0).getGrandTotal());
                     progressDialog.cancel();
                 }
             }

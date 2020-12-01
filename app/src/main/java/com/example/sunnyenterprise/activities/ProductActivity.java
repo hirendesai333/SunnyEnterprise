@@ -8,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +61,11 @@ public class ProductActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.imageViewProductback);
         imageView.setOnClickListener(view -> onBackPressed());
+
+        ImageView home = findViewById(R.id.homeButton);
+        home.setOnClickListener(v -> {
+            startActivity(new Intent(this, HomeActivity.class));
+        });
     }
 
     private void getProducts() {

@@ -42,7 +42,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(cartLists.get(position).getName());
         holder.ccolor.setText(cartLists.get(position).getColorName());
-        holder.cQuantity.setText(""+cartLists.get(position).getQuantity());
+        holder.cQuantity.setText("" + cartLists.get(position).getQuantity());
         holder.cSizeCode.setText(cartLists.get(position).getSizeCode());
         holder.cDelete.setOnClickListener(view -> {
             onDeleteItemInterface.deleteItemID(cartLists.get(position).getId());
@@ -66,7 +66,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.View
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView ctitle, ccolor, cQuantity, cSizeCode;
         ImageView cgridIcon, cDelete;
 

@@ -24,7 +24,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
 
     List<Color> pList;
     LayoutInflater inflater;
-    private RecyclerViewClickInterface recyclerViewClickInterface;
+    private final RecyclerViewClickInterface recyclerViewClickInterface;
     SingleProduct singleProduct;
 
     public ProductColorAdapter(Context ctx, List<Color> pList, RecyclerViewClickInterface recyclerViewClickInterface) {
@@ -37,7 +37,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.color_row_layout, parent, false);
-        return new ProductColorAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         if (singleProduct.getSlug().equals(pList.get(position).getSlug())) {
             holder.radioButton.setChecked(true);
             holder.radioButton.setButtonTintList(
-                    ColorStateList.valueOf(android.graphics.Color.parseColor("#"+pList.get(position).getCode()))
+                    ColorStateList.valueOf(android.graphics.Color.parseColor("#" + pList.get(position).getCode()))
             );
 
         } else {
@@ -69,7 +69,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         RadioButton radioButton;
         TextView textView;
         LinearLayout rootLayout;

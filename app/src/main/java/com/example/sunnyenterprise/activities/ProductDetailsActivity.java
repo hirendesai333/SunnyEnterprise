@@ -27,8 +27,11 @@ import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.example.sunnyenterprise.utils.Preferences;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,16 +63,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
     ProgressDialog progressDialog;
 
-    private static final String slug = "123";
+    public String slugString = null;
 
     private int sizeId = 0;
     int quantity = 0;
     boolean isQtyAdded = true;
 
+    Preferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+
+        preferences = new Preferences(this);
 
         tvPrice = findViewById(R.id.textMrp);
         tvStyle = findViewById(R.id.tvStyle);
@@ -95,7 +102,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         textView.setText(title);
 
         long ProductId = Long.parseLong(i.getStringExtra("product_id"));
-        long CustomerId = 1;
+        long CustomerId = preferences.getId();
 
         api = ApiService.createService(ApiCallInterface.class);
 
@@ -109,20 +116,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                     Call<AddToCart> addCartCall = api.postData(addCart);
                     addCartCall.enqueue(new Callback<AddToCart>() {
                         @Override
-                        public void onResponse(Call<AddToCart> call, Response<AddToCart> response) {
+                        public void onResponse(@NotNull Call<AddToCart> call, @NotNull Response<AddToCart> response) {
                             Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                             if (response.code() == 200) {
                                 sizeQuantityList.clear();
                                 startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
                             } else {
-                                Toast.makeText(ProductDetailsActivity.this, "response code is not 200", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProductDetailsActivity.this, "try again!", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<AddToCart> call, Throwable t) {
+                        public void onFailure(@NotNull Call<AddToCart> call, @NotNull Throwable t) {
                             Toast.makeText(ProductDetailsActivity.this, "onFailure " + t.getMessage(), Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 } else {
@@ -135,15 +141,25 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         ImageView imageView = findViewById(R.id.imageViewProductDetailsback);
         imageView.setOnClickListener(view -> onBackPressed());
+
+        ImageView home = findViewById(R.id.homeButtonProductDetails);
+        home.setOnClickListener(v -> {
+            startActivity(new Intent(this, HomeActivity.class));
+        });
+
+        slugString = i.getStringExtra("slug");
+
     }
 
     @Override
-    public void onItemClick(final int position, final String slug) {
-        Call<ProductDetails> call = api.getProductDetail(slug);
+    public void onItemClick(final int position, final String slugString) {
+        Call<ProductDetails> call = api.getProductDetail(slugString);
         call.enqueue(new Callback<ProductDetails>() {
             @Override
             public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
-                getProductDetails(response.body().getSingleProduct().getSlug());
+                if (response.body() != null) {
+                    getProductDetails(response.body().getSingleProduct().getSlug());
+                }
             }
 
             @Override
@@ -156,7 +172,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     @Override
     protected void onResume() {
         super.onResume();
-        getProductDetails(slug);
+        getProductDetails(slugString);
     }
 
     private void getProductDetails(String newSlug) {

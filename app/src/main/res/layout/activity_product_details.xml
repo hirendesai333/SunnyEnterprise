@@ -32,6 +32,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/back" />
 
+        <ImageView
+            android:id="@+id/homeButtonProductDetails"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbarProductDetails"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbarProductDetails"
+            app:srcCompat="@drawable/ic_baseline_home_24"
+            app:tint="@color/white" />
+
         <TextView
             android:id="@+id/textViewproductDetails"
             android:layout_width="wrap_content"
@@ -45,14 +56,13 @@
             app:layout_constraintStart_toEndOf="@+id/imageViewProductDetailsback"
             app:layout_constraintTop_toTopOf="@+id/imageViewProductDetailsback" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_above="@id/layout"
         android:layout_below="@+id/constraintLayuot">
 
         <androidx.cardview.widget.CardView
@@ -176,6 +186,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerviewSize"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

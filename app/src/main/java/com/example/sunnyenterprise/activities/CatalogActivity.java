@@ -63,6 +63,11 @@ public class CatalogActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.backImageCatalog);
         imageView.setOnClickListener(view -> onBackPressed());
+
+        ImageView home = findViewById(R.id.homeButton);
+        home.setOnClickListener(v -> {
+            startActivity(new Intent(this, HomeActivity.class));
+        });
     }
 
     private void getCategories() {

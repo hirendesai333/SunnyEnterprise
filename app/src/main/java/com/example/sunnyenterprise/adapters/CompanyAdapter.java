@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.ViewHold
         holder.gridView.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), CatalogActivity.class);
             intent.putExtra("title", String.valueOf(holder.title.getText()));
-            intent.putExtra("companyid",String.valueOf(companyList.get(position).getId()));
+            intent.putExtra("companyid", String.valueOf(companyList.get(position).getId()));
+            Log.d("ids", "companyid: " + companyList.get(position).getId());
             view.getContext().startActivity(intent);
         });
     }

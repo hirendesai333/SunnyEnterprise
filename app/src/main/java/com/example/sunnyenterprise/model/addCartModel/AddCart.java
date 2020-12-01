@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AddCart {
-    @SerializedName("ProductId")
+        @SerializedName("ProductId")
     @Expose
     private Long mProductId;
 
