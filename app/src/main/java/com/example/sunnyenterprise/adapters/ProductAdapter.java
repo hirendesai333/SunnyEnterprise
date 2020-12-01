@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +41,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.ptitle.setText(pList.get(position).getName());
         Picasso.get().load(pList.get(position).getImageUrl()).into(holder.pgridIcon);
 
-        holder.productgridView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ProductDetailsActivity.class);
-                intent.putExtra("productTitle", String.valueOf(holder.ptitle.getText()));
-                intent.putExtra("product_id", String.valueOf(pList.get(position).getProductid()));
-                view.getContext().startActivity(intent);
-            }
+        holder.productgridView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ProductDetailsActivity.class);
+            intent.putExtra("productTitle", String.valueOf(holder.ptitle.getText()));
+            intent.putExtra("product_id", String.valueOf(pList.get(position).getProductid()));
+            Log.d("product_id", "product_id: " + pList.get(position).getProductid());
+            view.getContext().startActivity(intent);
+
         });
     }
 
@@ -61,7 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView ptitle;
         ImageView pgridIcon;
         CardView productgridView;

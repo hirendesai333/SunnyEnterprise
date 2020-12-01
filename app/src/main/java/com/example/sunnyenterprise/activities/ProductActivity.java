@@ -37,7 +37,6 @@ public class ProductActivity extends AppCompatActivity {
     ApiCallInterface api;
 
     ProgressDialog progressDialog;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

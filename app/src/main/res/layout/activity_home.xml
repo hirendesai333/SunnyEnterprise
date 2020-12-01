@@ -106,7 +106,7 @@
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
-                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorRadius="1.5dp"
                 app:sliderScrollTimeInSec="1"
                 app:sliderStartAutoCycle="true" />
 

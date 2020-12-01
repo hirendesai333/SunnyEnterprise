@@ -1,3 +1,4 @@
+
 package com.example.sunnyenterprise.activities;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,7 +32,10 @@ import com.example.sunnyenterprise.model.loginModel.Item;
 import com.example.sunnyenterprise.model.loginModel.Login;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.example.sunnyenterprise.utils.Preferences;
 import com.goodiebag.pinview.Pinview;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    Boolean Islogin = true;
+    Boolean islogin = true;
+
+
+    Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,56 +65,101 @@ public class LoginActivity extends AppCompatActivity {
         etMob = findViewById(R.id.etMobile);
         final Button button = findViewById(R.id.loginBtn);
 
+        progressDialog = new ProgressDialog(LoginActivity.this);
+
         api = ApiService.createService(ApiCallInterface.class);
 
-        Call<Login> call = api.getLoginDetails("9601258730");
-        call.enqueue(new Callback<Login>() {
-            @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
-                loginDetails = response.body();
+        preferences = new Preferences(LoginActivity.this);
 
-                final String responseMob = loginDetails.getItem().getMobile();
+        button.setOnClickListener(view -> {
+            progressDialog.setProgress(10);
+            progressDialog.setMax(100);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
 
-                button.setOnClickListener(view -> {
+            final String mobileNum = etMob.getText().toString();
+
+            Call<Login> call = api.getLoginDetails(mobileNum);
+            call.enqueue(new Callback<Login>() {
+                @Override
+                public void onResponse(@NotNull Call<Login> call, @NotNull Response<Login> response) {
+                    loginDetails = response.body();
+
                     myDialog = new Dialog(getApplicationContext());
 
-                    final String mobileNum = etMob.getText().toString();
-
                     if (mobileNum.isEmpty()) {
+                        progressDialog.cancel();
                         Toast.makeText(LoginActivity.this, "Fill the details", Toast.LENGTH_SHORT).show();
 
                     } else {
+                        final String responseMob = loginDetails.getItem().getMobile();
                         if (responseMob.equals(mobileNum)) {
-                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                            prefs.edit().putBoolean("Islogin", Islogin).commit();
+//                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+//                            prefs.edit().putBoolean("Islogin", islogin).apply();
 
-                            progressDialog = new ProgressDialog(LoginActivity.this);
-                            progressDialog.setProgress(10);
-                            progressDialog.setMax(100);
-                            progressDialog.setMessage("Loading...");
-                            progressDialog.show();
+                            preferences.setMobile(mobileNum);
+                            preferences.setId(loginDetails.getItem().getId());
+
+//                            showOtpDialog();
+
                             progressDialog.cancel();
-                            showOtpDialog();
+                            onBackPressed();
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(intent);
 
+                            /*AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            ViewGroup viewGroup = findViewById(android.R.id.content);
+                            View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_otp_dialog, viewGroup, false);
+                            builder.setView(dialogView);
+                            AlertDialog alertDialog = builder.create();
+
+                            Button verifyBtn = dialogView.findViewById(R.id.btnVerify);
+                            Pinview pinview = dialogView.findViewById(R.id.pinview);
+
+                            verifyBtn.setOnClickListener(view -> {
+                                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+                                String otp = String.valueOf(loginDetails.getItem().getOtp());
+
+                                if (pinview.getValue().equals(otp)) {
+                                    alertDialog.dismiss();
+                                    progressDialog.cancel();
+                                    onBackPressed();
+                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    alertDialog.dismiss();
+                                    Toast.makeText(LoginActivity.this, "otp is not valid!", Toast.LENGTH_SHORT).show();
+                                }
+
+                            });
+
+                            TextView textViewResend = dialogView.findViewById(R.id.tvResend);
+                            textViewResend.setOnClickListener(view -> {
+                                Toast.makeText(getApplicationContext(), "code sent again!", Toast.LENGTH_SHORT).show();
+                            });
+
+                            alertDialog.show();*/
 
                         } else {
+                            progressDialog.cancel();
                             Toast.makeText(LoginActivity.this, "didn't matched!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
-                });
+                }
 
-            }
-
-            @Override
-            public void onFailure(Call<Login> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onFailure(@NotNull Call<Login> call, @NotNull Throwable t) {
+                    Toast.makeText(LoginActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
     }
 
-    public void showOtpDialog() {
+    /*public void showOtpDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgress(10);
         progressDialog.setMax(100);
@@ -121,9 +173,13 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
 
         Button verifyBtn = dialogView.findViewById(R.id.btnVerify);
+        Pinview pinview = dialogView.findViewById(R.id.pinview);
+
         verifyBtn.setOnClickListener(view -> {
-            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+
 
             alertDialog.dismiss();
             progressDialog.cancel();
@@ -140,8 +196,7 @@ public class LoginActivity extends AppCompatActivity {
 
         alertDialog.show();
 
-
-    }
+    }*/
 
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);

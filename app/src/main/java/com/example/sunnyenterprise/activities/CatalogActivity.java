@@ -84,7 +84,6 @@ public class CatalogActivity extends AppCompatActivity {
                 categoryList = response.body();
                 catalogAdapter.setData(categoryList);
                 dataList.setAdapter(catalogAdapter);
-
             }
 
             @Override

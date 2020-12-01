@@ -60,7 +60,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
         notifyDataSetChanged();
     }
 
-    public class CatalogViewHolder extends RecyclerView.ViewHolder {
+    public static class CatalogViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView gridIcon;
         CardView catalogGridview;
