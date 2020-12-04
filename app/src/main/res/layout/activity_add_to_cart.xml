@@ -61,9 +61,9 @@
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
+        app:drawableEndCompat="@drawable/ic_cart_shopping"
         app:layout_constraintStart_toStartOf="@+id/imageViewBackfromCart"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewBackfromCart"
-        app:drawableEndCompat="@drawable/ic_cart_shopping" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBackfromCart" />
 
     <TextView
         android:id="@+id/tvTotalItems"

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
-    private String TAG = OrderActivity.class.getSimpleName();
+    private final String TAG = OrderActivity.class.getSimpleName();
 
     RecyclerView productList;
     OrderAdapter orderAdapter;
@@ -84,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
         Spinner spinCountry;
         spinCountry = dialogView.findViewById(R.id.spinCountry);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+        ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, getResources()
                 .getStringArray(R.array.status));
 
@@ -99,6 +100,11 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
+        });
+
+        Button filter = dialogView.findViewById(R.id.filterButton);
+        filter.setOnClickListener(v -> {
+            alertDialog.dismiss();
         });
 
         alertDialog.show();

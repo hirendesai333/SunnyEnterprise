@@ -46,7 +46,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     ProgressDialog progressDialog;
     ImageView clearCartBtn;
     ImageView homeBtnFromCart;
-    Button btnCheckout,btnCancel,btnDelete ;
+    Button btnCheckout, btnCancel, btnDelete;
     TextView tvCartEmpty, tvCartItems, tvGrandTotal;
     int CustomerId;
 
@@ -63,7 +63,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
         homeBtnFromCart = findViewById(R.id.homeButtonfromCart);
         homeBtnFromCart.setOnClickListener(view -> {
-            startActivity(new Intent(AddToCartActivity.this,HomeActivity.class));
+            startActivity(new Intent(AddToCartActivity.this, HomeActivity.class));
         });
 
         tvCartEmpty = findViewById(R.id.tvCartEmpty);
@@ -95,7 +95,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(AddToCartActivity.this);
         builder.setTitle("Are You Sure...");
-        builder.setNegativeButton("CANCEL", (dialog, which) -> Toast.makeText(getApplicationContext(),"Cancel is clicked",Toast.LENGTH_LONG).show());
+        builder.setNegativeButton("CANCEL", (dialog, which) -> Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show());
         builder.setPositiveButton("DELETE", (dialog, which) -> clearCartProducts());
         builder.show();
     }
@@ -163,7 +163,16 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
     @Override
     public void deleteItemID(int id) {
-        Call<CartList> deleteCall = api.deleteCartItem(id);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddToCartActivity.this);
+        builder.setTitle("Are You Sure...");
+        builder.setNegativeButton("CANCEL", (dialog, which) -> Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show());
+        builder.setPositiveButton("DELETE", (dialog, which) -> deletefromDialog(id));
+        builder.show();
+
+    }
+
+    public void deletefromDialog(int productId) {
+        Call<CartList> deleteCall = api.deleteCartItem(productId);
         deleteCall.enqueue(new Callback<CartList>() {
             @Override
             public void onResponse(Call<CartList> call, Response<CartList> response) {

@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <ImageView
         android:id="@+id/menu_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:src="@drawable/profile_icon" />
 
     <TextView
@@ -19,13 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:textStyle="bold"
-        android:text="Profile_Title"/>
+        android:layout_marginBottom="5dp"
+        android:text="Lorem ipsum name"
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
-        android:background="@color/grey"/>
+        android:background="@color/grey" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
