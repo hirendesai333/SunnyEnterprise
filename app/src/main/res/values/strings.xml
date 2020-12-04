@@ -2,4 +2,14 @@
     <string name="app_name">SunnyEnterprise</string>
     <string name="open">open</string>
     <string name="close">close</string>
+
+    <string-array name="status">
+        <item>In Progress</item>
+        <item>Shipped</item>
+        <item>Delivered</item>
+        <item>Cancelled</item>
+        <item>Returned</item>
+        <item>Pending Payment</item>
+    </string-array>
+
 </resources>

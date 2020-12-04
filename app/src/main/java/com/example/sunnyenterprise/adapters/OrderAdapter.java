@@ -39,9 +39,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ctitle.setText(valueList.get(position).getProductName());
-        holder.cTvQuantity.setText("  "+valueList.get(position).getQuantity());
-        holder.ccolor.setText(valueList.get(position).getColor());
-        holder.cTvSize.setText(valueList.get(position).getSize());
+        holder.cTvQuantity.setText("item:  " + valueList.get(position).getQuantity());
+        holder.ccolor.setText("Color:  " + valueList.get(position).getColor());
+        holder.cTvSize.setText("Size:  " + valueList.get(position).getSize());
+        holder.cStatus.setText("Status:  " + valueList.get(position).getStatus());
+
         Picasso.get()
                 .load(valueList.get(position).getImageS3Url())
                 .into(holder.cgridIcon);
@@ -59,9 +61,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ctitle, ccolor, cTvQuantity, cTvSize;
+        TextView ctitle, ccolor, cTvQuantity, cTvSize, cStatus;
         ImageView cgridIcon;
-        CardView constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,11 +71,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             ccolor = itemView.findViewById(R.id.colorText);
             cTvQuantity = itemView.findViewById(R.id.tvQuantity);
             cTvSize = itemView.findViewById(R.id.tvSize);
-            constraintLayout = itemView.findViewById(R.id.parent_layout);
+            cStatus = itemView.findViewById(R.id.status);
 
             itemView.setOnClickListener(view -> {
-                Intent i = new Intent(view.getContext(),OrderDetailsActivity.class);
-                i.putExtra("title",valueList.get(getAdapterPosition()).getId());
+                Intent i = new Intent(view.getContext(), OrderDetailsActivity.class);
+                i.putExtra("title", valueList.get(getAdapterPosition()).getId());
                 Log.d("orderid", String.valueOf(valueList.get(getAdapterPosition()).getId()));
                 view.getContext().startActivity(i);
             });

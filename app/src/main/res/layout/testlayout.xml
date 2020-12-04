@@ -1,33 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/imageViewAddToCart"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_centerVertical="true"
             app:srcCompat="@drawable/product" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutDetails"
+            android:paddingStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/imageViewAddToCart"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewAddToCart"
@@ -39,10 +34,10 @@
                 android:textSize="13sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -53,48 +48,30 @@
                     android:text="red"
                     android:textSize="12sp" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/grey" />
-
                 <TextView
-                    android:id="@+id/tvQuantity"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/tvSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
-                    android:text="20"
-                    android:textSize="12sp" />
+                    android:text="28"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/textView8" />
 
             </LinearLayout>
 
-
             <TextView
-                android:id="@+id/tvSize"
+                android:id="@+id/tvQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_regular"
-                android:text="28"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                app:layout_constraintStart_toEndOf="@+id/textView8"
-                app:layout_constraintTop_toTopOf="@+id/textView8" />
+                android:text="20"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:fontFamily="@font/lato_regular"
-            android:text="TextView"
-            android:textSize="13sp" />
-
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -1,14 +1,22 @@
 package com.example.sunnyenterprise.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +46,7 @@ public class OrderActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ApiCallInterface api;
     int CustomerId;
+    CardView filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +65,43 @@ public class OrderActivity extends AppCompatActivity {
 
         getOrdersByCustomerId();
 
+        filter = findViewById(R.id.filterCardview);
+        filter.setOnClickListener(v -> {
+            showFilterDialog();
+        });
+
         imageViewbackCart = findViewById(R.id.imageViewBackfromOrder);
         imageViewbackCart.setOnClickListener(view -> onBackPressed());
+    }
+
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(OrderActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_filter_dialog, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+
+        Spinner spinCountry;
+        spinCountry = dialogView.findViewById(R.id.spinCountry);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, getResources()
+                .getStringArray(R.array.status));
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinCountry.setAdapter(adapter);
+        spinCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+        alertDialog.show();
     }
 
 
