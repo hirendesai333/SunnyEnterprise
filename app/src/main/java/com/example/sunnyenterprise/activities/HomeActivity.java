@@ -105,6 +105,10 @@ public class HomeActivity extends AppCompatActivity {
                         Intent cartIntent = new Intent(HomeActivity.this, OrderActivity.class);
                         startActivity(cartIntent);
                         break;
+                    case R.id.notification:
+                        Intent notification = new Intent(HomeActivity.this, NotificationActivity.class);
+                        startActivity(notification);
+                        break;
                     case R.id.logOut:
                         Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
                         preferences.logOut();

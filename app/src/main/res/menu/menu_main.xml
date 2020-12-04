@@ -5,12 +5,18 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/house"
-        android:title="Home"
+        android:title="Dashboard"
         app:showAsAction="never"/>
     <item
         android:id="@+id/orders"
         android:icon="@drawable/orderspurchase"
         android:title="Orders"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/notification"
+        android:icon="@drawable/notification"
+        android:title="Notification"
         app:showAsAction="never"/>
 
 
