@@ -13,6 +13,19 @@
         android:title="Orders"
         app:showAsAction="never"/>
 
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/share"
+        android:title="Share"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/rateus"
+        android:icon="@drawable/rate"
+        android:title="Rate Us"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/logOut"
         android:icon="@drawable/ic_logout"

@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +46,7 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     ProgressDialog progressDialog;
     ImageView clearCartBtn;
     ImageView homeBtnFromCart;
-    Button btnCheckout;
+    Button btnCheckout,btnCancel,btnDelete ;
     TextView tvCartEmpty, tvCartItems, tvGrandTotal;
     int CustomerId;
 
@@ -82,9 +86,18 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
 
         clearCartBtn = findViewById(R.id.clearCartBtn);
         clearCartBtn.setOnClickListener(view -> {
-            clearCartProducts();
+//            clearCartProducts();
+            showAlertDialog();
         });
 
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddToCartActivity.this);
+        builder.setTitle("Are You Sure...");
+        builder.setNegativeButton("CANCEL", (dialog, which) -> Toast.makeText(getApplicationContext(),"Cancel is clicked",Toast.LENGTH_LONG).show());
+        builder.setPositiveButton("DELETE", (dialog, which) -> clearCartProducts());
+        builder.show();
     }
 
     public void showProgressDialog() {
