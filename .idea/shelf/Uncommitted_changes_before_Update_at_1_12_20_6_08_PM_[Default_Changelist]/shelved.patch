@@ -1,0 +1,49 @@
+Index: app/src/main/java/com/example/sunnyenterprise/adapters/OrderAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.sunnyenterprise.adapters;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.ImageView;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.cardview.widget.CardView;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport com.example.sunnyenterprise.R;\nimport com.example.sunnyenterprise.activities.OrderDetailsActivity;\nimport com.example.sunnyenterprise.model.ordersModel.Value;\nimport com.squareup.picasso.Picasso;\n\nimport java.util.List;\n\npublic class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {\n    List<Value> valueList;\n    Context context;\n\n    public OrderAdapter(List<Value> valueList, Context mContext) {\n        this.valueList = valueList;\n        this.context = mContext;\n    }\n\n    @NonNull\n    @Override\n    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_grid_layout, parent, false);\n        return new ViewHolder(view);\n    }\n\n    @Override\n    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {\n        holder.ctitle.setText(valueList.get(position).getProductName());\n        holder.cTvQuantity.setText(\"  \"+valueList.get(position).getQuantity());\n        holder.ccolor.setText(valueList.get(position).getColor());\n        holder.cTvSize.setText(valueList.get(position).getSize());\n        Picasso.get()\n                .load(valueList.get(position).getImageS3Url())\n                .into(holder.cgridIcon);\n    }\n\n    @Override\n    public int getItemCount() {\n        return valueList.size();\n    }\n\n    public void setData(List<Value> valueList) {\n        this.valueList = valueList;\n        notifyDataSetChanged();\n\n    }\n\n    public class ViewHolder extends RecyclerView.ViewHolder {\n        TextView ctitle, ccolor, cTvQuantity, cTvSize;\n        ImageView cgridIcon;\n        CardView constraintLayout;\n\n        public ViewHolder(@NonNull View itemView) {\n            super(itemView);\n            ctitle = itemView.findViewById(R.id.textViewAddToCart);\n            cgridIcon = itemView.findViewById(R.id.imageViewAddToCart);\n            ccolor = itemView.findViewById(R.id.colorText);\n            cTvQuantity = itemView.findViewById(R.id.tvQuantity);\n            cTvSize = itemView.findViewById(R.id.tvSize);\n            constraintLayout = itemView.findViewById(R.id.parent_layout);\n\n            itemView.setOnClickListener(view -> {\n                Intent i = new Intent(view.getContext(),OrderDetailsActivity.class);\n                i.putExtra(\"title\",valueList.get(getAdapterPosition()).getId());\n                view.getContext().startActivity(i);\n            });\n\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/sunnyenterprise/adapters/OrderAdapter.java	(revision 03df977d8bd85576f5fc72db6c85a437ac40ee99)
++++ app/src/main/java/com/example/sunnyenterprise/adapters/OrderAdapter.java	(date 1606819340000)
+@@ -2,6 +2,7 @@
+ 
+ import android.content.Context;
+ import android.content.Intent;
++import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -74,6 +75,7 @@
+             itemView.setOnClickListener(view -> {
+                 Intent i = new Intent(view.getContext(),OrderDetailsActivity.class);
+                 i.putExtra("title",valueList.get(getAdapterPosition()).getId());
++                Log.d("orderid", String.valueOf(valueList.get(getAdapterPosition()).getId()));
+                 view.getContext().startActivity(i);
+             });
+ 
+Index: app/src/main/res/layout/activity_order_details.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    tools:context=\".activities.OrderDetailsActivity\">\n\n    <androidx.constraintlayout.widget.ConstraintLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\">\n\n        <androidx.appcompat.widget.Toolbar\n            android:id=\"@+id/toolBar\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:background=\"@color/colorPrimary\"\n            app:layout_constraintEnd_toEndOf=\"parent\"\n            app:layout_constraintStart_toStartOf=\"parent\"\n            app:layout_constraintTop_toTopOf=\"parent\" />\n\n        <ImageView\n            android:id=\"@+id/backImageOrderDetails\"\n            android:layout_width=\"18dp\"\n            android:layout_height=\"18dp\"\n            android:layout_marginStart=\"8dp\"\n            app:layout_constraintBottom_toBottomOf=\"@+id/toolBar\"\n            app:layout_constraintStart_toStartOf=\"parent\"\n            app:layout_constraintTop_toTopOf=\"parent\"\n            app:srcCompat=\"@drawable/back\" />\n\n        <TextView\n            android:id=\"@+id/catalogTitle\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginStart=\"16dp\"\n            android:text=\"Order Details\"\n            android:textColor=\"@color/white\"\n            android:textSize=\"16dp\"\n            app:layout_constraintBottom_toBottomOf=\"@+id/backImageOrderDetails\"\n            app:layout_constraintStart_toEndOf=\"@+id/backImageOrderDetails\"\n            app:layout_constraintTop_toTopOf=\"@+id/backImageOrderDetails\" />\n\n    </androidx.constraintlayout.widget.ConstraintLayout>\n\n    <androidx.cardview.widget.CardView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"250dp\"\n        android:layout_margin=\"10dp\">\n\n        <ImageView\n            android:id=\"@+id/orderImage\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\" />\n\n    </androidx.cardview.widget.CardView>\n\n\n    <TextView\n        android:id=\"@+id/productName\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginStart=\"10dp\"\n        android:layout_marginBottom=\"10dp\"\n        android:fontFamily=\"@font/lato_regular\"\n        android:text=\"productname\" />\n\n    <TextView\n        android:id=\"@+id/orderPrice\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginStart=\"10dp\"\n        android:layout_marginBottom=\"10dp\"\n        android:fontFamily=\"@font/lato_regular\"\n        android:text=\"order price\" />\n\n    <TextView\n        android:id=\"@+id/orderQuantity\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginStart=\"10dp\"\n        android:fontFamily=\"@font/lato_regular\"\n        android:text=\"order Quantity\" />\n\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_order_details.xml	(revision 03df977d8bd85576f5fc72db6c85a437ac40ee99)
++++ app/src/main/res/layout/activity_order_details.xml	(date 1606818260000)
+@@ -56,7 +56,6 @@
+ 
+     </androidx.cardview.widget.CardView>
+ 
+-
+     <TextView
+         android:id="@+id/productName"
+         android:layout_width="match_parent"
+@@ -83,5 +82,4 @@
+         android:fontFamily="@font/lato_regular"
+         android:text="order Quantity" />
+ 
+-
+ </LinearLayout>
+\ No newline at end of file

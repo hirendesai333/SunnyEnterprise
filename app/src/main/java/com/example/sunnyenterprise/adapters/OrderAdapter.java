@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             itemView.setOnClickListener(view -> {
                 Intent i = new Intent(view.getContext(),OrderDetailsActivity.class);
                 i.putExtra("title",valueList.get(getAdapterPosition()).getId());
+                Log.d("orderid", String.valueOf(valueList.get(getAdapterPosition()).getId()));
                 view.getContext().startActivity(i);
             });
 

@@ -26,6 +26,7 @@ import com.example.sunnyenterprise.model.bannerModel.Banner;
 import com.example.sunnyenterprise.model.companyModel.Company;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.example.sunnyenterprise.utils.Preferences;
 import com.google.android.material.navigation.NavigationView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -55,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    Boolean Islogin = false;
+    Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferencesCustomerID.edit();
         editor.putInt("customer_id", 1);
         editor.apply();
+
+        preferences = new Preferences(HomeActivity.this);
 
         SliderView sliderView = findViewById(R.id.imageSlider);
 
@@ -104,8 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.logOut:
                         Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-                        prefs.edit().putBoolean("Islogin", Islogin).commit();
+                        preferences.logOut();
                         startActivity(loginIntent);
                         break;
                     default:

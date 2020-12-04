@@ -50,9 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    Boolean islogin = true;
-
-
     Preferences preferences;
 
     @Override
