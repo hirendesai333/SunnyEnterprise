@@ -2,6 +2,7 @@ package com.example.sunnyenterprise.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.cTvQuantity.setText("item:  " + valueList.get(position).getQuantity());
         holder.ccolor.setText("Color:  " + valueList.get(position).getColor());
         holder.cTvSize.setText("Size:  " + valueList.get(position).getSize());
-        holder.cStatus.setText("Status:  " + valueList.get(position).getStatus());
+//        holder.cStatus.setText("Status:  " + valueList.get(position).getStatus());
+
+        String statusString =
+               "Status:  " + "<b>" + valueList.get(position).getStatus() + "</b> ";
+        holder.cStatus.setText(Html.fromHtml(statusString));
 
         Picasso.get()
                 .load(valueList.get(position).getImageS3Url())

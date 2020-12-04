@@ -19,7 +19,7 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/lato_bold"
             android:text="Status: "
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/statusButton"
