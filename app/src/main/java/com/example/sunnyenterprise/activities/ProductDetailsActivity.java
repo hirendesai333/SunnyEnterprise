@@ -88,7 +88,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         colorList = findViewById(R.id.recyclerviewColor);
         colorList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         colorList.setLayoutManager(layoutManager2);
 
         imageViewProduct = findViewById(R.id.imageProduct);
