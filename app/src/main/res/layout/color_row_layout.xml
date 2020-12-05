@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/root_layout"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <RadioButton
-        android:id="@+id/radioButtonColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:checked="false"
-        android:duplicateParentState="true" />
+        <RadioButton
+            android:id="@+id/radioButtonColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:duplicateParentState="true" />
 
-    <TextView
-        android:id="@+id/textViewColorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="35dp"
+            app:cardCornerRadius="5dp"
+            android:layout_gravity="center"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/colorVie"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textViewColorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView" />
 
     </LinearLayout>
 

@@ -1,11 +1,12 @@
 package com.example.sunnyenterprise.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             holder.radioButton.setButtonTintList(
                     ColorStateList.valueOf(android.graphics.Color.parseColor("#" + pList.get(position).getCode()))
             );
+//            holder.colorView.setBackgroundColor(android.graphics.Color.parseColor("#"+ pList.get(position).getCode()));
 
         } else {
             holder.radioButton.setChecked(false);
@@ -56,6 +58,9 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         holder.radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
             recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug());
         });
+
+        holder.colorView.setBackgroundColor(android.graphics.Color.parseColor("#"+ pList.get(position).getCode()));
+
     }
 
     @Override
@@ -73,12 +78,15 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
         RadioButton radioButton;
         TextView textView;
         LinearLayout rootLayout;
+        TextView colorView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             radioButton = itemView.findViewById(R.id.radioButtonColor);
             textView = itemView.findViewById(R.id.textViewColorName);
             rootLayout = itemView.findViewById(R.id.root_layout);
+            colorView = itemView.findViewById(R.id.colorVie);
+
         }
     }
 }
