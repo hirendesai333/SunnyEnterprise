@@ -99,12 +99,12 @@ public class LoginActivity extends AppCompatActivity {
 
 //                            showOtpDialog();
 
-                            progressDialog.cancel();
-                            onBackPressed();
-                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                            startActivity(intent);
+//                            progressDialog.cancel();
+//                            onBackPressed();
+//                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                            startActivity(intent);
 
-                            /*AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                             ViewGroup viewGroup = findViewById(android.R.id.content);
                             View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_otp_dialog, viewGroup, false);
                             builder.setView(dialogView);
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "code sent again!", Toast.LENGTH_SHORT).show();
                             });
 
-                            alertDialog.show();*/
+                            alertDialog.show();
 
                         } else {
                             progressDialog.cancel();
