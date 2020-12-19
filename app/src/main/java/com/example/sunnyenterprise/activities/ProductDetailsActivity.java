@@ -29,6 +29,7 @@ import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.example.sunnyenterprise.utils.Preferences;
 import com.google.gson.Gson;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +60,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
 
     String imageurl;
-    ImageView imageViewProduct;
+    SliderView imageViewProduct;
 
     ProgressDialog progressDialog;
 
