@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -20,20 +21,21 @@ class SplashActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-//        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         preferences = Preferences(this)
 
-//        val Islogin = prefs.getBoolean("Islogin", false)
-        if (preferences!!.getMobile().isEmpty()) {
-            Handler().postDelayed({
+        Handler().postDelayed({
+            if (preferences!!.getMobile().isEmpty()) {
                 val loginIntent = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(loginIntent)
                 finish()
-            }, SPLASH_TIME.toLong())
-        } else {
-            val i = Intent(this@SplashActivity, HomeActivity::class.java)
-            startActivityForResult(i, 1)
-        }
+            } else {
+                Log.d("ids", "customer Id : ${preferences!!.getId()}")
+                val homeIntent = Intent(this@SplashActivity, HomeActivity::class.java)
+                startActivity(homeIntent)
+                finish()
+            }
+        }, SPLASH_TIME.toLong())
+
     }
 }

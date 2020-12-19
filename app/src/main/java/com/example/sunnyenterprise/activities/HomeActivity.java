@@ -93,33 +93,30 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                switch (id) {
-                    case R.id.home:
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            int id = menuItem.getItemId();
+            switch (id) {
+                case R.id.home:
 //                        drawerLayout.openDrawer(GravityCompat.END);
-                        break;
-                    case R.id.orders:
-                        Intent cartIntent = new Intent(HomeActivity.this, OrderActivity.class);
-                        startActivity(cartIntent);
-                        break;
-                    case R.id.notification:
-                        Intent notification = new Intent(HomeActivity.this, NotificationActivity.class);
-                        startActivity(notification);
-                        break;
-                    case R.id.logOut:
-                        Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
-                        preferences.logOut();
-                        startActivity(loginIntent);
-                        break;
-                    default:
-                        return true;
-                }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                    break;
+                case R.id.orders:
+                    Intent cartIntent = new Intent(HomeActivity.this, OrderActivity.class);
+                    startActivity(cartIntent);
+                    break;
+                case R.id.notification:
+                    Intent notification = new Intent(HomeActivity.this, NotificationActivity.class);
+                    startActivity(notification);
+                    break;
+                case R.id.logOut:
+                    Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                    preferences.logOut();
+                    startActivity(loginIntent);
+                    break;
+                default:
+                    return true;
             }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
         mButton = findViewById(R.id.imageViewOpenMenu);

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,11 +23,10 @@ import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
-import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
+import com.example.sunnyenterprise.recyclerviewInterface.OnColorClick;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.example.sunnyenterprise.utils.Preferences;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface, OnSizeQtyClick {
+public class ProductDetailsActivity extends AppCompatActivity implements OnColorClick, OnSizeQtyClick {
 
     private String TAG = ProductDetailsActivity.class.getSimpleName();
 
@@ -83,12 +81,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         sizeList = findViewById(R.id.recyclerviewSize);
         sizeList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         sizeList.setLayoutManager(layoutManager);
 
         colorList = findViewById(R.id.recyclerviewColor);
         colorList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         colorList.setLayoutManager(layoutManager2);
 
         imageViewProduct = findViewById(R.id.imageProduct);
@@ -117,7 +115,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                     addCartCall.enqueue(new Callback<AddToCart>() {
                         @Override
                         public void onResponse(@NotNull Call<AddToCart> call, @NotNull Response<AddToCart> response) {
-                            Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                             if (response.code() == 200) {
                                 sizeQuantityList.clear();
                                 startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));

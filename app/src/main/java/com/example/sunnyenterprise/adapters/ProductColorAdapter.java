@@ -1,9 +1,7 @@
 package com.example.sunnyenterprise.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.SingleProduct;
-import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
+import com.example.sunnyenterprise.recyclerviewInterface.OnColorClick;
 
 import java.util.List;
 
 public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapter.ViewHolder> {
-
     List<Color> pList;
     LayoutInflater inflater;
-    private final RecyclerViewClickInterface recyclerViewClickInterface;
+    OnColorClick onColorClick;
     SingleProduct singleProduct;
 
-    public ProductColorAdapter(Context ctx, List<Color> pList, RecyclerViewClickInterface recyclerViewClickInterface) {
+    public ProductColorAdapter(Context ctx, List<Color> pList, OnColorClick onColorClick) {
         this.pList = pList;
         this.inflater = LayoutInflater.from(ctx);
-        this.recyclerViewClickInterface = recyclerViewClickInterface;
+        this.onColorClick = onColorClick;
     }
 
     @NonNull
@@ -54,12 +51,12 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             holder.radioButton.setChecked(false);
         }
         holder.textView.setText(pList.get(position).getName());
-        holder.rootLayout.setOnClickListener(view -> recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug()));
+        holder.rootLayout.setOnClickListener(view -> onColorClick.onItemClick(position, pList.get(position).getSlug()));
         holder.radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
-            recyclerViewClickInterface.onItemClick(position, pList.get(position).getSlug());
+            onColorClick.onItemClick(position, pList.get(position).getSlug());
         });
 
-        holder.colorView.setBackgroundColor(android.graphics.Color.parseColor("#"+ pList.get(position).getCode()));
+        holder.colorView.setBackgroundColor(android.graphics.Color.parseColor("#" + pList.get(position).getCode()));
 
     }
 

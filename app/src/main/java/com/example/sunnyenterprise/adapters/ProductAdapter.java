@@ -47,7 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             intent.putExtra("product_id", String.valueOf(pList.get(position).getProductid()));
             intent.putExtra("slug", String.valueOf(pList.get(position).getSlug()));
             Log.d("ids", "product_id: " + pList.get(position).getProductid());
-            Log.d("slugs", String.valueOf(pList.get(position).getSlug()));
+            Log.d("ids", "slug:" + pList.get(position).getSlug());
 
             view.getContext().startActivity(intent);
 

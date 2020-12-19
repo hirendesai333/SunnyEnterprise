@@ -6,7 +6,7 @@ class Preferences(context: Context) {
 
     val APP_PREFERENCE = "app_preferences"
 
-    val MOBILE = "email"
+    val MOBILE = "mobile"
     val ID = "id"
 
     val PREFERENCE = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE)

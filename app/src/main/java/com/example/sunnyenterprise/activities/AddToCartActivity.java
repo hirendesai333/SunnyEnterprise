@@ -28,6 +28,7 @@ import com.example.sunnyenterprise.model.placeOrderModel.Item;
 import com.example.sunnyenterprise.recyclerviewInterface.OnDeleteItemInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
+import com.example.sunnyenterprise.utils.Preferences;
 
 
 import java.util.List;
@@ -50,13 +51,19 @@ public class AddToCartActivity extends AppCompatActivity implements OnDeleteItem
     TextView tvCartEmpty, tvCartItems, tvGrandTotal;
     int CustomerId;
 
+    Preferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_cart);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("sharePrefCustomerId", Context.MODE_PRIVATE);
-        CustomerId = sharedPreferences.getInt("customer_id", 0);
+        /*SharedPreferences sharedPreferences = getSharedPreferences("sharePrefCustomerId", Context.MODE_PRIVATE);
+        CustomerId = sharedPreferences.getInt("customer_id", 0);*/
+
+        preferences = new Preferences(AddToCartActivity.this);
+
+        CustomerId = (int) preferences.getId();
 
         imageViewbackCart = findViewById(R.id.imageViewBackfromCart);
         imageViewbackCart.setOnClickListener(view -> onBackPressed());

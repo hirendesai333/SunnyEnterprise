@@ -1,5 +1,5 @@
 package com.example.sunnyenterprise.recyclerviewInterface;
 
-public interface RecyclerViewClickInterface {
+public interface OnColorClick {
     void onItemClick(int position, String slug);
 }
