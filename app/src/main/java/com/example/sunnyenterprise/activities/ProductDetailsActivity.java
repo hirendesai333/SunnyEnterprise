@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.ProductColorAdapter;
 import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
@@ -23,10 +27,11 @@ import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
-import com.example.sunnyenterprise.recyclerviewInterface.OnColorClick;
+import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.example.sunnyenterprise.utils.Preferences;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements OnColorClick, OnSizeQtyClick {
+public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface, OnSizeQtyClick {
 
     private String TAG = ProductDetailsActivity.class.getSimpleName();
 
@@ -57,7 +62,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements OnColor
     ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
 
     String imageurl;
-    ImageView imageViewProduct;
+   // ImageView imageViewProduct;
 
     ProgressDialog progressDialog;
 
@@ -68,6 +73,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements OnColor
     boolean isQtyAdded = true;
 
     Preferences preferences;
+
+    ImageSlider imageSlider;
+    List<SlideModel> slideModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +89,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements OnColor
 
         sizeList = findViewById(R.id.recyclerviewSize);
         sizeList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         sizeList.setLayoutManager(layoutManager);
 
         colorList = findViewById(R.id.recyclerviewColor);
         colorList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         colorList.setLayoutManager(layoutManager2);
 
-        imageViewProduct = findViewById(R.id.imageProduct);
+        imageSlider = findViewById(R.id.image_slider);
+
         addtocartButton = findViewById(R.id.addTocartBtn);
 
         productColorAdapter = new ProductColorAdapter(this, cList, this);
@@ -115,7 +124,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements OnColor
                     addCartCall.enqueue(new Callback<AddToCart>() {
                         @Override
                         public void onResponse(@NotNull Call<AddToCart> call, @NotNull Response<AddToCart> response) {
-//                            Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProductDetailsActivity.this, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                             if (response.code() == 200) {
                                 sizeQuantityList.clear();
                                 startActivity(new Intent(ProductDetailsActivity.this, AddToCartActivity.class));
@@ -204,7 +213,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements OnColor
 
                 if (response.body().getSingleProduct().getProductImages().size() > 0) {
                     imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
-                    Picasso.get().load(imageurl).into(imageViewProduct);
+                   // Picasso.get().load(imageurl).into(imageViewProduct);
+                    slideModels.add(new SlideModel("https://bit.ly/2YoJ77H", ScaleTypes.CENTER_CROP));
+                    slideModels.add(new SlideModel("https://bit.ly/2BteuF2", ScaleTypes.CENTER_CROP));
+                    slideModels.add(new SlideModel("https://bit.ly/3fLJf72", ScaleTypes.CENTER_CROP));
+                    imageSlider.setImageList(slideModels);
                 }
 
             }
