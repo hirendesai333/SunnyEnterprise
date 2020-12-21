@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.sunnyenterprise.R;
 import com.example.sunnyenterprise.adapters.ProductColorAdapter;
 import com.example.sunnyenterprise.adapters.ProductSizeAdapter;
@@ -29,7 +32,6 @@ import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.example.sunnyenterprise.utils.Preferences;
 import com.google.gson.Gson;
-import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -60,7 +62,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
 
     String imageurl;
-    SliderView imageViewProduct;
+   // ImageView imageViewProduct;
 
     ProgressDialog progressDialog;
 
@@ -71,6 +73,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     boolean isQtyAdded = true;
 
     Preferences preferences;
+
+    ImageSlider imageSlider;
+    List<SlideModel> slideModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         colorList.setLayoutManager(layoutManager2);
 
-        imageViewProduct = findViewById(R.id.imageProduct);
+        imageSlider = findViewById(R.id.image_slider);
+
         addtocartButton = findViewById(R.id.addTocartBtn);
 
         productColorAdapter = new ProductColorAdapter(this, cList, this);
@@ -207,7 +213,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
                 if (response.body().getSingleProduct().getProductImages().size() > 0) {
                     imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
-                    Picasso.get().load(imageurl).into(imageViewProduct);
+                   // Picasso.get().load(imageurl).into(imageViewProduct);
+                    slideModels.add(new SlideModel("https://bit.ly/2YoJ77H", ScaleTypes.CENTER_CROP));
+                    slideModels.add(new SlideModel("https://bit.ly/2BteuF2", ScaleTypes.CENTER_CROP));
+                    slideModels.add(new SlideModel("https://bit.ly/3fLJf72", ScaleTypes.CENTER_CROP));
+                    imageSlider.setImageList(slideModels);
                 }
 
             }
