@@ -25,6 +25,7 @@ import com.example.sunnyenterprise.model.addCartModel.SizeQuantity;
 import com.example.sunnyenterprise.model.addToCartModel.AddToCart;
 import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
+import com.example.sunnyenterprise.model.productDetailModel.ProductImage;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
 import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
@@ -212,12 +213,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                 sizeList.setAdapter(productSizeAdapter);
 
                 if (response.body().getSingleProduct().getProductImages().size() > 0) {
-                    imageurl = response.body().getSingleProduct().getProductImages().get(0).getImageURL();
                    // Picasso.get().load(imageurl).into(imageViewProduct);
-                    slideModels.add(new SlideModel("https://bit.ly/2YoJ77H", ScaleTypes.CENTER_CROP));
-                    slideModels.add(new SlideModel("https://bit.ly/2BteuF2", ScaleTypes.CENTER_CROP));
-                    slideModels.add(new SlideModel("https://bit.ly/3fLJf72", ScaleTypes.CENTER_CROP));
-                    imageSlider.setImageList(slideModels);
+                    List<ProductImage> imageList = (List<ProductImage>) response.body().getSingleProduct().getProductImages();
+                    for (int i = 0; i < imageList.size(); i++) {
+
+                        imageurl = imageList.get(0).getImageURL();
+                        slideModels.add(new SlideModel(imageurl, ScaleTypes.CENTER_CROP));
+                        imageSlider.setImageList(slideModels);
+                    }
+
                 }
 
             }
