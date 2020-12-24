@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -150,7 +151,6 @@ public class HomeActivity extends AppCompatActivity {
                 sliderView.setIndicatorUnselectedColor(Color.parseColor("#5D1049"));
                 sliderView.setScrollTimeInSec(3);
                 sliderView.startAutoCycle();
-
             }
 
             @Override

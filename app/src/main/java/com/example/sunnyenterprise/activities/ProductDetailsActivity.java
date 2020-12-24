@@ -27,8 +27,8 @@ import com.example.sunnyenterprise.model.productDetailModel.Color;
 import com.example.sunnyenterprise.model.productDetailModel.ProductDetails;
 import com.example.sunnyenterprise.model.productDetailModel.ProductImage;
 import com.example.sunnyenterprise.model.productDetailModel.Size;
+import com.example.sunnyenterprise.recyclerviewInterface.OnColorClick;
 import com.example.sunnyenterprise.recyclerviewInterface.OnSizeQtyClick;
-import com.example.sunnyenterprise.recyclerviewInterface.RecyclerViewClickInterface;
 import com.example.sunnyenterprise.retrofit.ApiCallInterface;
 import com.example.sunnyenterprise.retrofit.ApiService;
 import com.example.sunnyenterprise.utils.Preferences;
@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements RecyclerViewClickInterface, OnSizeQtyClick {
+public class ProductDetailsActivity extends AppCompatActivity implements OnColorClick, OnSizeQtyClick {
 
     private String TAG = ProductDetailsActivity.class.getSimpleName();
 
@@ -63,7 +63,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
     ArrayList<SizeQuantity> sizeQuantityList = new ArrayList<>();
 
     String imageurl;
-   // ImageView imageViewProduct;
 
     ProgressDialog progressDialog;
 
@@ -90,12 +89,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
 
         sizeList = findViewById(R.id.recyclerviewSize);
         sizeList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         sizeList.setLayoutManager(layoutManager);
 
         colorList = findViewById(R.id.recyclerviewColor);
         colorList.setHasFixedSize(true);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         colorList.setLayoutManager(layoutManager2);
 
         imageSlider = findViewById(R.id.image_slider);
@@ -213,17 +212,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Recycle
                 sizeList.setAdapter(productSizeAdapter);
 
                 if (response.body().getSingleProduct().getProductImages().size() > 0) {
-                   // Picasso.get().load(imageurl).into(imageViewProduct);
-                    List<ProductImage> imageList = (List<ProductImage>) response.body().getSingleProduct().getProductImages();
+                    List<ProductImage> imageList = response.body().getSingleProduct().getProductImages();
                     for (int i = 0; i < imageList.size(); i++) {
-
-                        imageurl = imageList.get(0).getImageURL();
+                        imageurl = imageList.get(i).getImageURL();
                         slideModels.add(new SlideModel(imageurl, ScaleTypes.CENTER_CROP));
                         imageSlider.setImageList(slideModels);
                     }
-
                 }
-
             }
 
             @Override
