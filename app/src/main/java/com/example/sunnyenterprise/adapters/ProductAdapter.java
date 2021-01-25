@@ -50,7 +50,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             Log.d("ids", "slug:" + pList.get(position).getSlug());
 
             view.getContext().startActivity(intent);
-
         });
     }
 
